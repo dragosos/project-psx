@@ -13,7 +13,7 @@ import server.TimerManager;
  */
 public class CalendarEventsManager {
     private byte channel = 1;
-    private CalendarEventsLibrary curr_event = CalendarEventsLibrary.CHRISTMAS;
+    private CalendarEventsLibrary curr_event = CalendarEventsLibrary.NO_CURRENT_EVENT;
     private ScheduledFuture update_thread;
     private int[] possible_mapEffects_ids;
     
@@ -34,7 +34,7 @@ public class CalendarEventsManager {
         @Override
         public void run(){
          //   CalendarEventsLibrary old_event = curr_event;
-            curr_event = CalendarEventsLibrary.CHRISTMAS;
+            curr_event = CalendarEventsLibrary.NO_CURRENT_EVENT;
             System.out.println("CURRENT EVENT IS NOW : " + curr_event.name());
             possible_mapEffects_ids = MapEffectsLibrary.generateMapEffectIDsByLib(curr_event);
         }

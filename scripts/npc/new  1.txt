@@ -1,0 +1,24 @@
+/*
+	NPC: ID:
+	Mount Seller
+*/
+mounts = [[1902000, 1902001, 1902002, 1902008, 1902011, 1902012, 1902021, 1902036, 1902038, 1902039, 1902020, 1902015, 1902016, 1902017, 1902018], [1912000, 1912000, 1912000, 1912003, 1912007, 1912008, 1912014, 1912029, 1912031, 1912032, 1912013, 1912011, 1912011, 1912011, 1912011]]; //[Mounts][Saddles]
+
+function start() {
+	text = "What mount would you like to buy? Each mount costs 10 #v4000258#.";
+	for (var i = 0; i < mounts[0].length; i++)
+		text += "\r\n#L"+i+"# #t"+mounts[0][i]+"# #v"+mounts[0][i]+"# #l";
+	cm.sendSimple(text);
+}
+
+function action(m,t,s) {
+	if (m != 0) {
+		if (cm.haveItem(4000258, 10)) {
+			cm.gainItem(mounts[0][s]);
+			cm.gainItem(mounts[1][s]);
+			cm.gainItem(4000258, -10);
+		} else
+			cm.sendOk(" Sorry, but you don't have 10 #v4000258# ");
+	}
+	cm.dispose();
+}

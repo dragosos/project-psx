@@ -1,0 +1,22 @@
+/*
+	NPC: ID:
+	Regular Item Gachapon Ticket Id: 4031342
+*/
+items = [ ];
+
+function start() {
+	cm.sendSimple(" Hello there and Welcome to the NX Item Gachapon! What would you like to do with your #v4031785#? \r\n #L0# Trade for a random Rare NX Item #l\r\n #L1# Trade For a Random Amount of NX ( 1 - 30k ) "); 
+}
+
+function action(m,t,s) {
+	if (m != 0) {
+		if (cm.haveItem(4031342, 1)) {
+			randitem = Math.floor(Math.random() * items.length);
+			cm.sendOk(" You have gained a #t" + items[randitem] + "# #v"+items[randitem]+"# ! Come back with another Ticket to play again! ");
+			cm.gainItem(items[randitem], 1);
+			cm.gainItem(4031342, -1);
+		} else
+			cm.sendOk(" Sorry, you don't have 1 #t4031342# #v4031342#. ");
+	}
+	cm.dispose();
+}

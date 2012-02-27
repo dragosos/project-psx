@@ -30,10 +30,10 @@ public class CharSelectedWithPicHandler extends AbstractMaplePacketHandler {
         if (macs.contains(", ")) {
             mac = mac.split(", ")[0];
         }
-        if (c.gmLevel() > 0 && RegisteredAuthenticates.getByMac(mac, c).equals(RegisteredAuthenticates.UNAUTHORIZED)) {
+       /* if (c.gmLevel() > 0 && RegisteredAuthenticates.getByMac(mac, c).equals(RegisteredAuthenticates.UNAUTHORIZED)) {
             c.sendUnauthorizedLogin();
             return;
-        }
+        }*/
         if (c.hasBannedMac()) {
             c.getSession().close(true);
             return;

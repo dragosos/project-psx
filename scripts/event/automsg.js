@@ -42,6 +42,6 @@ function cancelSchedule() {
 
 function start() {
     scheduleNew();
-    var Message = new Array("Please refrain from using foul language in this game.", "Verbal and other forms of abuse will NOT be tolerated. Abusers will be blocked from the game.");
-    em.getChannelServer().yellowWorldMessage("[MapleTip] " + Message[Math.floor(Math.random() * Message.length)]);
+    var Message = new Array("Please refrain from using foul language in this game.", "Verbal and other forms of abuse will NOT be tolerated. Abusers will be blocked from the game.", "The mechanic job,guilds,and pets currently do not work.");
+    em.getChannelServer().yellowWorldMessage("[PSX] " + Message[Math.floor(Math.random() * Message.length)]);
 }

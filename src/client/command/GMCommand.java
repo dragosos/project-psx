@@ -371,7 +371,7 @@ public class GMCommand {
         } else if (splitted[0].equalsIgnoreCase("warphere")) {
             cserv.getPlayerStorage().getCharacterByName(splitted[1]).changeMap(player.getMap(), player.getMap().findClosestSpawnpoint(player.getPosition()));
 
-        } else if (splitted[0].equalsIgnoreCase("whatmap")) {
+        } else if (splitted[0].equalsIgnoreCase("whereami")) {
             player.dropMessage("You are on map " + player.getMap().getId());
 
         } else if (splitted[0].equalsIgnoreCase("whosthere")) {
@@ -417,7 +417,7 @@ public class GMCommand {
             player.gainExp(-player.getExp(), false, false);
             player.updateSingleStat(MapleStat.LEVEL, player.getLevel());
 
-        } else if (splitted[0].equalsIgnoreCase("maxall")) {
+        } else if (splitted[0].equalsIgnoreCase("maxall") || splitted[0].equalsIgnoreCase("maxstats")) {
             player.setStr(32767);
             player.setDex(32767);
             player.setInt(32767);
@@ -456,9 +456,9 @@ public class GMCommand {
                 if (splitted[2].equalsIgnoreCase("Perm") || splitted[2].equalsIgnoreCase("Permanent")) {
                     victim.setMuteLevel(2);
                     victim.dropMessage(" You have been Permanently muted. You can only be unmuted by a GM.");
-                } else if (splitted[2].equalsIgnoreCase("Temp") || splitted[2].equalsIgnoreCase("Temperary")) {
+                } else if (splitted[2].equalsIgnoreCase("Temp") || splitted[2].equalsIgnoreCase("Temporary")) {
                     victim.setMuteLevel(1);
-                    victim.dropMessage(" You have been Temporary muted. You can be unmuted by doing @fmnpc.");
+                    victim.dropMessage(" You have been Temporarily muted. You can be unmuted by doing @fmnpc.");
                 } else if (splitted.length < 2) {
                     player.dropMessage(" ..:: Mute Commands ::..");
                     player.dropMessage(" !mute <name> <Perm/Temp>");

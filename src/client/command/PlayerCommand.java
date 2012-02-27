@@ -63,14 +63,14 @@ public class PlayerCommand {
         MapleCharacter player = c.getPlayer();
         ChannelServer cserv = c.getChannelServer();
         if (splitted[0].equalsIgnoreCase("server")) {
-            player.dropMessage("" + ServerConstants.SERVERNAME + " V1.4.6");
+            player.dropMessage("" + ServerConstants.SERVERNAME + " Beta");
         } else if (splitted[0].equalsIgnoreCase("commands") || splitted[0].equalsIgnoreCase("help")) {
             player.dropMessage("Try @commands1 or @commands2");
         } else if (splitted[0].equalsIgnoreCase("commands1")) {
             player.dropMessage("===================================================");
             player.dropMessage("            " + ServerConstants.SERVERNAME + " Player Commands Page 1         ");
             player.dropMessage("===================================================");
-            player.dropMessage("@ranking             - Shows the Top 10 Players of the server.");
+            //player.dropMessage("@ranking             - Shows the Top 10 Players of the server.");
             player.dropMessage("@pvpranking          - Shows the Top 10 Users in PvP.");
             player.dropMessage("@sendmail            - Sends a letter to a user. (Perfect for offline Messaging!)");
             player.dropMessage("@checknewmail        - Checks your new mail that you havn't read before.");
@@ -97,7 +97,7 @@ public class PlayerCommand {
             player.dropMessage("@joinevent           - Joins any event that a GM opens up.");
             player.dropMessage("@hideout             - Warps you to the guild hideout. (If you have one)");
             if (player.getGuildRank() == 1) {
-                player.dropMessage("@sethideot             - Sets your Guild's hideout to the map you are on.");
+                player.dropMessage("@sethideout             - Sets your Guild's hideout to the map you are on.");
             }
             player.dropMessage("@save                - Saves your character to Database.");
             player.dropMessage("@str                 - Lets you manually raise your Strength.");
@@ -273,12 +273,12 @@ public class PlayerCommand {
                 player.dropMessage("You have to wait 5 minutes inbetween.");
             }
 
-        } else if (splitted[0].equalsIgnoreCase("dispose")) {
+        } else if (splitted[0].equalsIgnoreCase("dispose") || splitted[0].equalsIgnoreCase("refresh")) {
             NPCScriptManager.getInstance().dispose(c);
             player.dropMessage("Unstucked.");
             c.getSession().write(MaplePacketCreator.enableActions());
 
-        } else if (splitted[0].equalsIgnoreCase("emo")) {
+        } else if (splitted[0].equalsIgnoreCase("emo") || splitted[0].equalsIgnoreCase("die")) {
             player.setHp(0);
             player.updateSingleStat(MapleStat.HP, 0);
 
@@ -417,11 +417,6 @@ public class PlayerCommand {
 
         } else if (splitted[0].equalsIgnoreCase("spinel")) {
             player.openNpc(9000020);
-
-        } else if (splitted[0].equalsIgnoreCase("travis")) {
-            if (player.getName().equalsIgnoreCase("Shattered")) {
-                player.changeMap(926100000);
-            }
 
         } else if (splitted[0].equalsIgnoreCase("autorebirth")) {
             player.autoreborn = !player.autoreborn;

@@ -1,0 +1,17 @@
+function start() {
+	text = "What would you like to spend your JumpQuest Points on? You have " + cm.getPlayer().getJumpQuestPoints() + " Points. ";
+	for (var i = 1; i < 6; i++)
+		text += "\r\n #L"+i+"# "+i+" Points for "+i+" #v4000258# #l";
+	cm.sendSimple(text);
+}
+
+function action(m,t,s) {
+	if (m != 0) {
+		if (cm.getPlayer().getJumpQuestPoints() == s) {
+			cm.gainItem(4000258, s);
+			cm.getPlayer().setJumpQuestPoints(cm.getPlayer().getJumpQuestPoints() - s);
+		} else 
+			cm.sendOk(" You don't have " + s + " Jump Quest Points. ");
+	}
+	cm.dispose();
+}

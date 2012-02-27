@@ -1,0 +1,33 @@
+/*
+	NPC: ID:
+	Belt System
+*/
+belts = [1132000, 1132001, 1132002, 1132003, 1132004];
+reborns = [1, 5, 50, 100, 311];
+amt = [1, 5, 10, 20, 50];
+stats = [50, 100, 150, 200, 311];
+wepatt = [10, 15, 20, 25, 31];
+
+function start() {
+	text =  "Hello and welcome to the belt system! Which belt would you like?"
+	for (var i = 0; i < belts.length; i++)
+		text += "\r\n#L"+i+"# #t"+belts[i]+"# #v"+belts[i]+"# ( Reborns Needed: "+reborns[i]+", #v4000258#s Needed: "+amt[i]+" ) #l";
+	cm.sendSimple(text);
+}
+
+function action(m,t,s) {
+	if (m != 0) {
+		if (cm.haveItem(4000258, amt[s])) {
+			if (cm.getPlayer().getReborns() >= reborns[s]) {
+				if (!cm.haveItem(belts[s], 1)) {
+					cm.addCustomEquip(belts[s],stats[s],stats[s],stats[s],stats[s],0,wepatt[s],0,0,0,0,0,0,0,0,1);
+					cm.gainItem(4000258, -amt[s]);
+				} else 
+					cm.sendOk(" You already have the #v"+belts[s]+"# Belt! ");
+			} else
+				cm.sendOk(" You don't have "+reborns[s]+" Reborns! ");
+		} else
+			cm.sendOk(" You don't have "+amt[s]+" #t4000258#!");
+	}
+	cm.dispose();
+}

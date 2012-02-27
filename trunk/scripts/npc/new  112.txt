@@ -1,0 +1,36 @@
+/*
+	NPC: Bulletin Board ID: 9040011
+	All in one npc
+*/
+status = 0;
+npcs = [["All-In-One Shop", 9201021], ["VotePoint Npc", 9000030], ["Bow-Ties", 9201031], ["Wisconsin System", 9270039], ["Currency Npc", 2112003], ["Jump-Quests", 2112009], ["Potion Maker ( Hippies )", 1002005], ["Player Hangouts", 2112006], ["Connected Clients", 2112008], ["Item Gachapon ", 1209000], ["NX Gachapon", 1202000], ["Mount Seller", 9000009], ["Belt System", 2010005], ["Boss Party Quest", 1012002], ["JumpQuest Point Shops", 2020000]];
+var colors = ["#g","#r","#d","#b"];
+var rand = Math.floor(Math.random() * 4); 
+
+function start() {
+	text = "Hello and welcome to the All-In-One npc. Which npc would you like me to open? ";
+	for (var i = 0; i < npcs.length; i++)
+		text += "\r\n "+colors[rand]+" #L"+i+"# "+npcs[i][0]+" #k#l";
+		text += "\r\n #L9000# Reset Stats #l";
+	if (cm.getPlayer().gmLevel() >= 4) {
+		text += "\r\n#L100000# GM Item Maker";
+	}
+	cm.sendSimple(text);
+}
+
+function action(m,t,s) {
+	if (m < 1) {
+		cm.dispose();
+		return;
+	} else {
+		if (s <= 1000) {
+			cm.openNpc(npcs[s][1]);
+		} else {
+			if (s == 100000) {
+				cm.openNpc(9000024);
+			} else if (s == 9000) {
+				cm.resetStats();
+			}
+		}
+	}
+}

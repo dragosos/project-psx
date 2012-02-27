@@ -23,7 +23,7 @@ package constants;
 
 public class ServerConstants {
     public static short VERSION = 97;
-    public static String SERVERNAME = "XeonMS";
+    public static String SERVERNAME = "Project PSX";
     // Rate Configuration
     public static short EXP_RATE = 70;
     public static short MESO_RATE = 50;
@@ -35,13 +35,13 @@ public class ServerConstants {
     public static final byte FLAG = 3;
     public static final int CHANNEL_NUMBER = 1;
     public static final int CHANNEL_LOAD = 150;
-    public static final String EVENT_MESSAGE = "Welcome to XeonMS v97! Due to the immense update, some things may not work yet. Please report any and all bugs on the forums!";
+    public static final String EVENT_MESSAGE = "Welcome to Project PXS.";
     public static final long RANKING_INTERVAL = 3600000;
     public static final boolean ENABLE_PIN = false;
     public static final boolean ENABLE_PIC = false;
     // Channel Configuration
-    public static String SERVER_MESSAGE = "Welcome to XeonMS V0.97 BETA! Guilds , Hired Merchants and Wild Hunters are now available!";
-    public static String RECOMMEND_MESSAGE = "Currently, this is our ONLY world. So please, choose it?";
+    public static String SERVER_MESSAGE = "Welcome to Project PSX. Mechanics do not work.";
+    public static String RECOMMEND_MESSAGE = "";
     public static final String EVENTS = "";
     
     //Host info

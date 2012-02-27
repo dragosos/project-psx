@@ -1,8 +1,8 @@
 /*
-        This file is part of the OdinMS Maple Story Server
+	This file is part of the OdinMS Maple Story Server
     Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-                       Matthias Butz <matze@odinms.de>
-                       Jan Christian Meyer <vimes@odinms.de>
+		       Matthias Butz <matze@odinms.de>
+		       Jan Christian Meyer <vimes@odinms.de>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -21,11 +21,9 @@
 */
 package net.channel.handler;
 
-import java.rmi.RemoteException;
 import client.MapleCharacter;
 import client.MapleClient;
 import net.AbstractMaplePacketHandler;
-import net.channel.ChannelServer;
 import net.world.MapleParty;
 import net.world.MaplePartyCharacter;
 import net.world.PartyOperation;
@@ -34,32 +32,29 @@ import tools.MaplePacketCreator;
 import tools.data.input.SeekableLittleEndianAccessor;
 
 public final class PartyOperationHandler extends AbstractMaplePacketHandler {
-
     public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         int operation = slea.readByte();
         MapleCharacter player = c.getPlayer();
-        WorldChannelInterface wci = ChannelServer.getInstance(c.getChannel()).getWorldInterface();
+        WorldChannelInterface wci = c.getChannelServer().getWorldInterface();
         MapleParty party = player.getParty();
-        MaplePartyCharacter partyplayer = player.getMPC();
+        MaplePartyCharacter partyplayer = new MaplePartyCharacter(player);
         switch (operation) {
             case 1: { // create
-                if (player.getParty() == null) {
+                if (c.getPlayer().getParty() == null) {
                     try {
-                        partyplayer = new MaplePartyCharacter(player);
                         party = wci.createParty(partyplayer);
                         player.setParty(party);
-                        player.setMPC(partyplayer);
                     } catch (Exception e) {
                         c.getChannelServer().reconnectWorld();
                     }
-                    c.announce(MaplePacketCreator.partyCreated(party));
+                    c.getSession().write(MaplePacketCreator.partyCreated(party));
                 } else {
-                    c.announce(MaplePacketCreator.serverNotice(5, "You can't create a party as you are already in one."));
+                    c.getPlayer().dropMessage(5, "You can't create a party as you are already in one");
                 }
                 break;
             }
-            case 2: {
-                if (party != null && partyplayer != null) {
+            case 2: { // leave
+                if (party != null) {
                     try {
                         if (partyplayer.equals(party.getLeader())) {
                             wci.updateParty(party.getId(), PartyOperation.DISBAND, partyplayer);
@@ -86,41 +81,37 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                         party = wci.getParty(partyid);
                         if (party != null) {
                             if (party.getMembers().size() < 6) {
-                                partyplayer = new MaplePartyCharacter(player);
                                 wci.updateParty(party.getId(), PartyOperation.JOIN, partyplayer);
                                 player.receivePartyMemberHP();
                                 player.updatePartyMemberHP();
                             } else {
-                                c.announce(MaplePacketCreator.partyStatusMessage(17));
+                                c.getSession().write(MaplePacketCreator.partyStatusMessage((byte) 17));
                             }
                         } else {
-                            c.announce(MaplePacketCreator.serverNotice(5, "The person you have invited to the party is already in one."));
+                            c.getPlayer().dropMessage(5, "The party you are trying to join does not exist");
                         }
-                    } catch (RemoteException e) {
+                    } catch (Exception e) {
                         c.getChannelServer().reconnectWorld();
                     }
                 } else {
-                    c.announce(MaplePacketCreator.serverNotice(5, "You can't join the party as you are already in one."));
+                    c.getPlayer().dropMessage(5, "You can't join the party as you are already in one");
                 }
                 break;
             }
-            case 4: {
-                // invite..
+            case 4: { // invite
                 String name = slea.readMapleAsciiString();
                 MapleCharacter invited = c.getChannelServer().getPlayerStorage().getCharacterByName(name);
                 invited.prty_invitationID = c.getPlayer().getPartyId();
                 if (invited != null) {
                     if (invited.getParty() == null) {
                         if (party.getMembers().size() < 6) {
-                            invited.getClient().announce(MaplePacketCreator.partyInvite(player));
-                        } else {
-                            c.announce(MaplePacketCreator.partyStatusMessage(16));
+                            invited.getClient().getSession().write(MaplePacketCreator.partyInvite(player));
                         }
                     } else {
-                        c.announce(MaplePacketCreator.partyStatusMessage(17));
+                        c.getSession().write(MaplePacketCreator.partyStatusMessage((byte) 16));
                     }
                 } else {
-                    c.announce(MaplePacketCreator.partyStatusMessage(19));
+                    c.getSession().write(MaplePacketCreator.partyStatusMessage((byte) 18));
                 }
                 break;
             }
@@ -136,7 +127,6 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                                     player.getEventInstance().disbandParty();
                                 }
                             }
-
                         } catch (Exception e) {
                             c.getChannelServer().reconnectWorld();
                         }
@@ -144,7 +134,6 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                 }
                 break;
             }
-
             case 6: {
                 int newLeader = slea.readInt();
                 MaplePartyCharacter newLeadr = party.getMemberById(newLeader);

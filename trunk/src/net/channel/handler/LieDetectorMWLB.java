@@ -27,7 +27,7 @@ public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c)
         Map<AutobanFactory, Integer> cheaterlog = suspect.getAutobanManager().points;
         if(!suspect.isGM() && !suspect.getJob().isA(MapleJob.MAPLELEAF_BRIGADIER)){
             if(cheaterlog.isEmpty()){
-                c.getPlayer().dropMessage(1, "'" + charname + "' is not currently suspected of cheating. If you are so sure of his guilt, please go to a GM. If this is an emergency, please suspend his account and take a screenshot priot to doing so.");
+                c.getPlayer().dropMessage(1, "'" + charname + "' is not currently suspected of cheating. If you are so sure of his guilt, please go to a GM. If this is an emergency, please suspend his account and take a screenshot prior to doing so.");
                 c.getPlayer().announce(MaplePacketCreator.enableActions());
                 return;
             } else {

@@ -34,13 +34,17 @@ public class ServerConstants {
     // Login Configuration
     public static final byte FLAG = 3;
     public static final int CHANNEL_NUMBER = 1;
-    public static final int CHANNEL_LOAD = 150;
+    public static final int CHANNEL_LOAD = 50;
     public static final String EVENT_MESSAGE = "Welcome to Project PXS.";
     public static final long RANKING_INTERVAL = 3600000;
     public static final boolean ENABLE_PIN = false;
     public static final boolean ENABLE_PIC = false;
     // Channel Configuration
+<<<<<<< .mine
+    public static String SERVER_MESSAGE = "";
+=======
     public static String SERVER_MESSAGE = "Welcome to Project PSX.";
+>>>>>>> .r9
     public static String RECOMMEND_MESSAGE = "";
     public static final String EVENTS = "";
     
@@ -48,5 +52,5 @@ public class ServerConstants {
     public static final String HOST = "127.0.0.1"; // Ip here
     
     // Random
-    public static int[] BLOCKED_COMMANDS_MAPS = {180000000, 970000004, 910010200, 200090300};
+    public static int[] BLOCKED_COMMANDS_MAPS = {970000004, 910010200, 200090300};
 }

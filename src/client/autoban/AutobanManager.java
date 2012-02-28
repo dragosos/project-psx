@@ -40,6 +40,7 @@ public class AutobanManager {
     }
 
     public void addPoint(AutobanFactory fac, String reason) {
+        if (!isGM()) {
         if (lastTime.containsKey(fac)) {
             if (lastTime.get(fac) < (System.currentTimeMillis() - fac.getExpire())) {
                 points.put(fac, points.get(fac) / 2); //So the points are not completely gone.
@@ -55,6 +56,7 @@ public class AutobanManager {
             chr.autoban("Autobanned for " + fac.name() + " ;" + reason, 1);
             chr.sendPolice("You have been temporarily blocked by #bThe Maple-Leaf Watch Brigade#k for the #eHACK reason#k. \r\n\r\n @eYour account is currently pending investigation by a GM.");
         }
+        }
     }
     
     public int calculateNumPoints(){
@@ -64,6 +66,10 @@ public class AutobanManager {
         }
         
         return pts;
+    }
+    
+    public boolean isGM() {
+        return chr.isGM();
     }
     
     public void permBan(String reason, boolean mac){

@@ -191,7 +191,7 @@ public final class PlayerLoggedinHandler extends AbstractMaplePacketHandler {
         chr.dropMessage(5, "<???> : Hi there.. I'm a Pokemon. Mind if I tag along?");
         }*/
         player.getMap().addPlayer(player);
-        chr.announce(MaplePacketCreator.MapMessage("WELCOME to XeonMS! We hope you enjoy your stay."));
+        chr.announce(MaplePacketCreator.MapMessage("Welcome to Project PSX."));
         if (chr.isJaguar()) {
             chr.announce(MaplePacketCreator.updateJaguar());
         }

@@ -19,7 +19,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package net.channel.handler;
+/*package net.channel.handler;
 
 import java.rmi.RemoteException;
 import client.*;
@@ -206,4 +206,22 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
         }
         return items;
     }
+}*/
+
+package net.channel.handler;
+
+import client.*;
+import net.AbstractMaplePacketHandler;
+import tools.MaplePacketCreator;
+import tools.data.input.SeekableLittleEndianAccessor;
+
+public final class EnterMTSHandler extends AbstractMaplePacketHandler {
+
+public final void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
+if (!c.getPlayer().isAlive()) {
+c.getSession().write(MaplePacketCreator.enableActions());
+return;
+}
+c.getPlayer().changeMap(c.getChannelServer().getMapFactory().getMap(910000000));
+}
 }

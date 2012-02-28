@@ -1,10 +1,12 @@
 package client.command;
 
+import client.Equip;
 import client.IItem;
 import client.Item;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleDisease;
+import client.MapleInventory;
 import client.MapleInventoryType;
 import client.MapleJob;
 import client.MaplePet;
@@ -14,18 +16,15 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 import java.rmi.RemoteException;
-import java.util.Map.Entry;
 import net.MaplePacket;
 import net.channel.ChannelServer;
 import net.world.remote.WorldLocation;
 import provider.MapleData;
-import provider.MapleDataProvider;
 import provider.MapleDataProviderFactory;
 import server.MapleInventoryManipulator;
 import server.MapleItemInformationProvider;
 import server.MapleShopFactory;
 import server.MapleTrade;
-import server.TimerManager;
 import server.life.MapleLifeFactory;
 import server.life.MapleMonster;
 import server.life.MobSkillFactory;
@@ -88,6 +87,9 @@ public class GMCommand {
             } else {
                 player.dropMessage("Player is not on.");
             }
+         }else if (splitted[0].equals("gmmap")){
+            player.changeMap(180000000);    
+            
         } else if (splitted[0].equalsIgnoreCase("stun")) {
             MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             int level = Integer.parseInt(splitted[2]);
@@ -224,6 +226,61 @@ public class GMCommand {
         } else if (splitted[0].equalsIgnoreCase("oxmap")) {
             player.changeMap(109020001);
 
+       }else if (splitted[0].equals("maxeqstat") || splitted[0].equals("maxeqstats")){
+            MapleInventory equip = player.getInventory(MapleInventoryType.EQUIP);
+            for (byte i = 0; i < 101; i++) {
+                try{
+                Equip eu = (Equip) equip.getItem(i);
+                      int item = equip.getItem(i).getItemId();
+                                short hand = eu.getHands();
+                                      byte level = eu.getLevel();
+                                    Equip nItem = new Equip(item, i);
+                                    nItem.setStr(eu.getStr()); // STR
+                                    nItem.setDex(eu.getDex()); // DEX
+                                    nItem.setInt(eu.getInt()); // INT
+                                    nItem.setLuk(eu.getLuk()); //LUK
+                                    nItem.setWatk(eu.getWatk()); //WA
+
+                                    //All Previous stats excluding the top 5
+                                    nItem.setWdef(eu.getWdef());
+                                    nItem.setAcc(eu.getHands());
+                                    nItem.setAvoid(eu.getAvoid());
+                                    nItem.setExpiration(eu.getExpiration());
+                                    nItem.setJump(eu.getJump());
+                                    nItem.setLevel(eu.getLevel());
+                                    nItem.setMatk(eu.getMatk());
+                                    nItem.setMdef(eu.getMdef());
+                                    nItem.setMp(eu.getMp());
+                                    nItem.setOwner(eu.getOwner());
+                                    nItem.setSpeed(eu.getSpeed());
+                                    nItem.setUpgradeSlots((byte) eu.getUpgradeSlots());
+                                    nItem.setHands(eu.getHands());
+                                    nItem.setLevel(eu.getLevel());
+                                    short incval= (short)32767;
+                                        nItem.setWdef(incval);
+                                        nItem.setAcc(incval);
+                                        nItem.setAvoid(incval);
+                                        nItem.setJump(incval);
+                                        nItem.setMatk(incval);
+                                        nItem.setMdef(incval);
+                                        nItem.setMp(incval);
+                                        nItem.setSpeed(incval);
+                                        nItem.setUpgradeSlots((byte) eu.getUpgradeSlots());
+                                        nItem.setHands(incval);
+                                        nItem.setWatk(incval);
+                                        nItem.setDex(incval);
+                                        nItem.setInt(incval);
+                                        nItem.setStr(incval);
+                                        nItem.setLuk(incval);
+        IItem tempItem = c.getPlayer().getInventory(MapleInventoryType.EQUIP).getItem((byte) i);
+        MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.EQUIP, (byte)i, tempItem.getQuantity(), false, true);
+        player.getInventory(MapleInventoryType.EQUIP).addFromDB(nItem);
+        } catch(Exception e){}
+        }
+        c.getSession().write(MaplePacketCreator.getCharInfo(player));
+        player.getMap().removePlayer(player);
+        player.getMap().addPlayer(player);
+            
         } else if (splitted[0].equalsIgnoreCase("healperson")) {
             MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             victim.setHp(victim.getMaxHp());
@@ -568,74 +625,27 @@ public class GMCommand {
                 }
             }
 
-        } else if (splitted[0].equalsIgnoreCase("item") || splitted[0].equalsIgnoreCase("drop")) {
-            MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-            if ((Object) splitted[1] instanceof Integer && (Object) splitted[2] instanceof Integer) {
-                if (splitted[0].equalsIgnoreCase("item")) {
-                    int itemId = Integer.parseInt(splitted[1]);
-                    if (itemId >= 5000000 && itemId < 5000065) {
-                        MaplePet.createPet(itemId);
-                    } else {
-                        MapleInventoryManipulator.addById(c, itemId, Short.parseShort(splitted[2]), player.getName(), -1);
-                    }
-                } else {
-                    int itemId = Integer.parseInt(splitted[1]);
-                    IItem toDrop;
-                    if (ii.getInventoryType(itemId) == MapleInventoryType.EQUIP) {
-                        toDrop = ii.getEquipById(itemId);
-                    } else {
-                        toDrop = new Item(itemId, (byte) 0, (short) StringUtil.getOptionalIntArg(splitted, 2, 1));
-                    }
-                    toDrop.setOwner(player.getName());
-                    c.getPlayer().getMap().spawnItemDrop(player, player, toDrop, player.getPosition(), true, true);
-                }
+        } else if (splitted[0].equals("item") || splitted[0].equals("drop")) {
+            int itemId = Integer.parseInt(splitted[1]);
+            short quantity = 1;
+            try {
+                quantity = Short.parseShort(splitted[2]);
+            } catch (Exception e) {
+            }
+            if (splitted[0].equals("item")) {
+                int petid = -1;
+                if (ItemConstants.isPet(itemId)) {
+                    petid = MaplePet.createPet(itemId);
+                } 
+                MapleInventoryManipulator.addById(c, itemId, quantity, player.getName(), petid, -1);
             } else {
-                List<Pair<Integer, String>> itemPairs = new LinkedList<Pair<Integer, String>>();
-                for (Pair<Integer, String> allitems : ii.getAllItems()) {
-                    if (allitems.getRight().toLowerCase().equals(joinStringFrom(splitted, 2).toLowerCase())) {
-                        itemPairs.add(new Pair(allitems.getLeft(), allitems.getRight()));
-                    }
-                }
-                if (itemPairs.isEmpty()) {
-                    player.dropMessage(" Sorry there is no item with the name: " + joinStringFrom(splitted, 2));
+                IItem toDrop;
+                if (MapleItemInformationProvider.getInstance().getInventoryType(itemId) == MapleInventoryType.EQUIP) {
+                    toDrop = MapleItemInformationProvider.getInstance().getEquipById(itemId);
                 } else {
-                    String name = "Null Name";
-                    Short quantity = 0;
-                    for (Pair<Integer, String> itemsToAdd : itemPairs) {
-                        int itemid = itemsToAdd.getLeft();
-                        name = itemsToAdd.getRight();
-                        quantity = (short) Integer.parseInt(splitted[1]);
-                        if (splitted[0].equalsIgnoreCase("item")) {
-                            if (itemid >= 5000000 && itemid < 5000065) {
-                                MaplePet.createPet(itemid);
-                            } else if (ii.getInventoryType(itemid) == MapleInventoryType.EQUIP) {
-                                int i = 1;
-                                do {
-                                    MapleInventoryManipulator.addById(c, itemid, (short) 1);
-                                    i++;
-                                } while (i <= quantity && player.getInventory(MapleInventoryType.EQUIP).getNextFreeSlot() != -1);
-                            } else {
-                                if (player.getInventory(MapleInventoryType.EQUIP).getNextFreeSlot() != -1) {
-                                    MapleInventoryManipulator.addById(c, itemid, quantity);
-                                } else {
-                                    player.dropMessage(" No free space. ");
-                                }
-                                return false;
-                            }
-                        } else if (splitted[0].equalsIgnoreCase("drop")) {
-                            if (ii.getInventoryType(itemid) == MapleInventoryType.EQUIP) {
-                                int i = 1;
-                                do {
-                                    player.getMap().spawnItemDrop(player, player, ii.getEquipById(itemid), player.getPosition(), true, true);
-                                    i++;
-                                } while (i <= quantity);
-                            } else {
-                                player.getMap().spawnItemDrop(player, player, new Item(itemid, (byte) 0, quantity), player.getPosition(), true, true);
-                            }
-                        }
-                    }
-                    player.dropMessage(" Have fun with your " + quantity + " new: " + name);
+                    toDrop = new Item(itemId, (byte) 0, quantity);
                 }
+                c.getPlayer().getMap().spawnItemDrop(c.getPlayer(), c.getPlayer(), toDrop, c.getPlayer().getPosition(), true, true);
             }
 
         } else if (splitted[0].equalsIgnoreCase("warpperson")) {

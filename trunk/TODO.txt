@@ -2,4 +2,4 @@ Guild entrance/exit
 Guild Emblems
 NPC's
 Party creation
-Dropping bug
+

@@ -33,10 +33,11 @@ public class CalendarEventsManager {
     public class updateCurrentEvent implements Runnable {
         @Override
         public void run(){
-         //   CalendarEventsLibrary old_event = curr_event;
             curr_event = CalendarEventsLibrary.NO_CURRENT_EVENT;
+            if (!noEvent()){
             System.out.println("CURRENT EVENT IS NOW : " + curr_event.name());
             possible_mapEffects_ids = MapEffectsLibrary.generateMapEffectIDsByLib(curr_event);
+        }
         }
     }
     
@@ -44,11 +45,14 @@ public class CalendarEventsManager {
         return possible_mapEffects_ids[((int)(possible_mapEffects_ids.length * Math.random()))];
     }
     
+    public boolean noEvent() {
+        if (curr_event == CalendarEventsLibrary.NO_CURRENT_EVENT);
+        return true;
+    }
+    
     public CalendarEventsLibrary getCurrentEvent(){
         return curr_event;
     }
-    
-
 }
 
  enum MapEffectsLibrary{

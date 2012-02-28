@@ -906,7 +906,7 @@ public class MaplePacketCreator {
         mplew.writeShort(0);
         mplew.writeInt(c.getAccID()); //user id
         mplew.write(c.getGender());
-        mplew.write(c.gmLevel() > 0 ? 1 : 0); //admin byte
+        mplew.write(c.gmLevel() > 0 ? 0 : 0); //admin byte //2nd 0 == 1
         mplew.write(0);
         mplew.write(0);
         mplew.write(0); // v97

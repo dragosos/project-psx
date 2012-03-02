@@ -40,11 +40,7 @@ public class ServerConstants {
     public static final boolean ENABLE_PIN = false;
     public static final boolean ENABLE_PIC = false;
     // Channel Configuration
-<<<<<<< .mine
-    public static String SERVER_MESSAGE = "";
-=======
     public static String SERVER_MESSAGE = "Welcome to Project PSX.";
->>>>>>> .r9
     public static String RECOMMEND_MESSAGE = "";
     public static final String EVENTS = "";
     

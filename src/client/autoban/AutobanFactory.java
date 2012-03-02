@@ -26,7 +26,7 @@ import client.MapleCharacter;
 
 /**
  *
- * @author kevintjuh93
+ * 
  */
 public enum AutobanFactory {
     MOB_COUNT,

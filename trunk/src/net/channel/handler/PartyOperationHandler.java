@@ -49,7 +49,7 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                     }
                     c.getSession().write(MaplePacketCreator.partyCreated(party));
                 } else {
-                    c.getPlayer().dropMessage(5, "You can't create a party as you are already in one");
+                    c.getPlayer().dropMessage(5, "You are already in a party.");
                 }
                 break;
             }
@@ -88,13 +88,13 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                                 c.getSession().write(MaplePacketCreator.partyStatusMessage((byte) 17));
                             }
                         } else {
-                            c.getPlayer().dropMessage(5, "The party you are trying to join does not exist");
+                            c.getPlayer().dropMessage(5, "The party you are trying to join does not exist.");
                         }
                     } catch (Exception e) {
                         c.getChannelServer().reconnectWorld();
                     }
                 } else {
-                    c.getPlayer().dropMessage(5, "You can't join the party as you are already in one");
+                    c.getPlayer().dropMessage(5, "You are already in a party.");
                 }
                 break;
             }
@@ -115,7 +115,7 @@ public final class PartyOperationHandler extends AbstractMaplePacketHandler {
                 }
                 break;
             }
-            case 5: { // expel
+           case 5: { // expel
                 int cid = slea.readInt();
                 if (partyplayer.equals(party.getLeader())) {
                     MaplePartyCharacter expelled = party.getMemberById(cid);

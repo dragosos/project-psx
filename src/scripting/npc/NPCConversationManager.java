@@ -607,6 +607,10 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             getPlayer().setTeam(getEvent().getLimit() % 2); //muhaha :D
         }
     }
+    
+     public boolean isLeader() {
+        return getParty().getLeader().equals(getPlayer().getMPC());
+    }
 
     public byte meetsPQRequirements(String pqType) {
         if(getPlayer().isGM()){

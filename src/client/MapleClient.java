@@ -131,7 +131,7 @@ public class MapleClient {
 
             @Override
             public void run() {
-                    disconnect(); //FAGGOTS
+                    disconnect(); 
             }
         }, 2000);
     }

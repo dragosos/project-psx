@@ -13,7 +13,7 @@ import server.TimerManager;
  */
 public class CalendarEventsManager {
     private byte channel = 1;
-    private CalendarEventsLibrary curr_event = CalendarEventsLibrary.NO_CURRENT_EVENT;
+    public CalendarEventsLibrary curr_event = CalendarEventsLibrary.NO_CURRENT_EVENT;
     private ScheduledFuture update_thread;
     private int[] possible_mapEffects_ids;
     
@@ -43,7 +43,7 @@ public class CalendarEventsManager {
     
     public int retrieveMapEffectID(){
         return possible_mapEffects_ids[((int)(possible_mapEffects_ids.length * Math.random()))];
-    }
+        }
     
     public boolean noEvent() {
         if (curr_event == CalendarEventsLibrary.NO_CURRENT_EVENT);

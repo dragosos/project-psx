@@ -93,15 +93,18 @@ public final class CreateCharHandler extends AbstractMaplePacketHandler {
                 newchar.getInventory(MapleInventoryType.ETC).addItem(new Item(4161047, (byte) 0, (short) 1));
             } else if (job == 1) { // Adventurer
                 newchar.setJob(MapleJob.BEGINNER);
-                newchar.setMap(130000000);
+                newchar.setMap(1020000);
+                newchar.setLevel(10);
                 newchar.getInventory(MapleInventoryType.ETC).addItem(new Item(4161001, (byte) 0, (short) 1));
             } else if (job == 2) { // Knights of Cygnus
                 newchar.setJob(MapleJob.NOBLESSE);
                 newchar.setMap(130000000); // aran 140000000
+                newchar.setLevel(10);
                 newchar.getInventory(MapleInventoryType.ETC).addItem(new Item(4161047, (byte) 0, (short) 1));
             } else if (job == 3) { // aran
                 newchar.setJob(MapleJob.LEGEND);
                 newchar.setMap(140000000); // aran 140000000
+                newchar.setLevel(10);
                 newchar.getInventory(MapleInventoryType.ETC).addItem(new Item(4161048, (byte) 0, (short) 1));
             } else if (job == 4) { // Evan
                 newchar.setJob(MapleJob.EVAN1);
@@ -124,7 +127,7 @@ public final class CreateCharHandler extends AbstractMaplePacketHandler {
                 newchar.setRemainingSp(1);
                 newchar.setRemainingAp(19 * 5);
             }
-            newchar.setMeso(1000000);
+            newchar.setMeso(10000000);
             newchar.setGender(gender);
             newchar.setName(name);
             newchar.setFace(face);

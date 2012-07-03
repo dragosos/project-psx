@@ -1,23 +1,23 @@
 /*
-This file is part of the OdinMS Maple Story Server
-Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-Matthias Butz <matze@odinms.de>
-Jan Christian Meyer <vimes@odinms.de>
+ This file is part of the OdinMS Maple Story Server
+ Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
+ Matthias Butz <matze@odinms.de>
+ Jan Christian Meyer <vimes@odinms.de>
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation version 3 as published by
-the Free Software Foundation. You may not use, modify or distribute
-this program unader any cother version of the GNU Affero General Public
-License.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation version 3 as published by
+ the Free Software Foundation. You may not use, modify or distribute
+ this program unader any cother version of the GNU Affero General Public
+ License.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package client;
 
@@ -707,7 +707,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
 
     public boolean isDamageHacking(int damage) {
         int plevel = getLevel();
-        if (this.getReborns() < 1) {
+        if (this.getReborns() < 1 && !isGM()) {
             return plevel <= 10 && damage >= 2500 || plevel <= 20 && damage >= 5000 || plevel <= 30 && damage >= 10000 || plevel <= 65 && damage >= 100000 || damage >= 500000 && plevel <= 80 || damage == 999999 && plevel <= 100;
         } else {
             return false;
@@ -846,6 +846,22 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
 
     public void cancelEffectFromBuffStat(MapleBuffStat stat) {
         cancelEffect(effects.get(stat).effect, false, -1);
+    }
+
+    public void toggleHide(boolean hide) {
+        if (isGM()) {
+            if (!hide) {
+                this.hidden = false;
+                getMap().broadcastMessage(this, MaplePacketCreator.spawnPlayerMapobject(this), false);
+                updatePartyMemberHP();
+                dropMessage("You are now out of hide mode. Everybody can see you now.");
+            } else {
+                this.hidden = true;
+                getMap().broadcastNONGMMessage(this, MaplePacketCreator.removePlayerFromMap(getId()), false);
+                dropMessage("You are now in hide mode.");
+            }
+            announce(MaplePacketCreator.enableActions());
+        }
     }
 
     public void toggleHide(boolean login, boolean yes) {
@@ -1035,12 +1051,15 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
     }
 
     public MapleMap mapSubstitution(MapleMap to) {
-        /*GameModeManager gmm = this.getClient().getChannelServer().getGameModeManager();
-        if(getGMode().getType() > 0 && gmm.getMapFactoryByMode(gMode) != null){ // meaning it's anything but normal mode
-        return gmm.getMapFactoryByMode(gMode).getMap(to.getId());
-        } else {
-        return to;
-        }*/
+        /*
+         * GameModeManager gmm =
+         * this.getClient().getChannelServer().getGameModeManager();
+         * if(getGMode().getType() > 0 && gmm.getMapFactoryByMode(gMode) !=
+         * null){ // meaning it's anything but normal mode return
+         * gmm.getMapFactoryByMode(gMode).getMap(to.getId()); } else { return
+         * to;
+        }
+         */
         return map;
     }
 
@@ -1069,7 +1088,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
 
     public void changeMap(final MapleMap to, final MaplePortal pto) {
         if (to == null) {
-            dropMessage("This map is unavailable due to the massive update. The update changed some Map IDs and Spinel hasn't be updated yet. Please try another map.");
+            dropMessage("This map is currently unavailable. Please try another map.");
             return;
         }
         if (to.getId() == 100000200 || to.getId() == 211000100 || to.getId() == 220000300) {
@@ -3902,15 +3921,14 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
                 }
             }
             ps.executeBatch();
-            /*   ps = con.prepareStatement("INSERT INTO trocklocations(characterid, mapid, vip) VALUES (?, ?, 1)");
-            for (int i = 0; i < getVipTrockSize(); i++) {
-            if (viptrockmaps[i] != 999999999) {
-            ps.setInt(1, getId());
-            ps.setInt(2, viptrockmaps[i]);
-            ps.addBatch();
-            }
-            }
-            ps.executeBatch();*/
+            /*
+             * ps = con.prepareStatement("INSERT INTO
+             * trocklocations(characterid, mapid, vip) VALUES (?, ?, 1)"); for
+             * (int i = 0; i < getVipTrockSize(); i++) { if (viptrockmaps[i] !=
+             * 999999999) { ps.setInt(1, getId()); ps.setInt(2,
+             * viptrockmaps[i]); ps.addBatch(); } }
+            ps.executeBatch();
+             */
             deleteWhereCharacterId(con, "DELETE FROM buddies WHERE characterid = ? AND pending = 0");
             ps = con.prepareStatement("INSERT INTO buddies (characterid, `buddyid`, `pending`, `group`) VALUES (?, ?, 0, ?)");
             ps.setInt(1, id);
@@ -4827,34 +4845,21 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
     }
 
     public void startFullnessSchedule(final int decrease, final MaplePet pet, int petSlot) {
-        /*    ScheduledFuture<?> schedule = TimerManager.getInstance().register(new Runnable() {
-        
-        @Override
-        public void run() {
-        int newFullness = pet.getFullness() - decrease;
-        if (newFullness <= 5) {
-        pet.setFullness(15);
-        pet.saveToDb();
-        unequipPet(pet, true);
-        } else {
-        pet.setFullness(newFullness);
-        pet.saveToDb();
-        IItem petz = getInventory(MapleInventoryType.CASH).getItem(pet.getPosition());
-        client.announce(MaplePacketCreator.updateSlot(petz));
+        /*
+         * ScheduledFuture<?> schedule = TimerManager.getInstance().register(new
+         * Runnable() {
+         *
+         * @Override public void run() { int newFullness = pet.getFullness() -
+         * decrease; if (newFullness <= 5) { pet.setFullness(15);
+         * pet.saveToDb(); unequipPet(pet, true); } else {
+         * pet.setFullness(newFullness); pet.saveToDb(); IItem petz =
+         * getInventory(MapleInventoryType.CASH).getItem(pet.getPosition());
+         * client.announce(MaplePacketCreator.updateSlot(petz)); } } }, 180000,
+         * 18000); switch (petSlot) { case 0: fullnessSchedule = schedule;
+         * break; case 1: fullnessSchedule_1 = schedule; break; case 2:
+         * fullnessSchedule_2 = schedule; break;
         }
-        }
-        }, 180000, 18000);
-        switch (petSlot) {
-        case 0:
-        fullnessSchedule = schedule;
-        break;
-        case 1:
-        fullnessSchedule_1 = schedule;
-        break;
-        case 2:
-        fullnessSchedule_2 = schedule;
-        break;
-        }*/
+         */
     }
 
     public void startMapEffect(String msg, int itemId) {

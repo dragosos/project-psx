@@ -72,6 +72,27 @@ public class MapleShop {
     private void addItem(MapleShopItem item) {
         items.add(item);
     }
+    
+    public boolean hasItemIdInShop(int itemid, int shopid) {
+        Connection con = DatabaseConnection.getConnection();
+        try {
+            PreparedStatement ps;
+            ps = con.prepareStatement("SELECT itemid FROM shopitems WHERE itemid = ? AND shopid = ?");
+            ps.setInt(1, itemid);
+            ps.setInt(2, shopid);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                rs.close();
+                ps.close();
+                return false;
+            }
+            rs.close();
+            ps.close();
+            return true;
+        } catch (Exception e) {
+        }
+        return false;
+    }  
 
     public void sendShop(MapleClient c) {
         c.getPlayer().setShop(this);
@@ -96,6 +117,7 @@ public class MapleShop {
             if (c.getPlayer().getMeso() >= (long) item.getPrice() * quantity) {
                 if (MapleInventoryManipulator.checkSpace(c, itemId, quantity, "")) {
                     if (!ItemConstants.isRechargable(itemId)) { //Pets can't be bought from shops
+                        if (hasItemIdInShop(itemId, getId())) 
                         MapleInventoryManipulator.addById(c, itemId, quantity);          
                         c.getPlayer().gainMeso(-(item.getPrice() * quantity), false);
                     } else {

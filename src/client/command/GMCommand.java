@@ -76,6 +76,12 @@ public class GMCommand {
                 victim.cancelAllBuffs();
             }
 
+        } else if (splitted[0].equalsIgnoreCase("hide")) {
+            player.toggleHide(true);
+
+        } else if (splitted[0].equalsIgnoreCase("unhide")) {
+            player.toggleHide(false);
+
         } else if (splitted[0].equalsIgnoreCase("seduce")) {
             MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             int level = Integer.parseInt(splitted[2]);
@@ -87,9 +93,9 @@ public class GMCommand {
             } else {
                 player.dropMessage("Player is not on.");
             }
-         }else if (splitted[0].equals("gmmap")){
-            player.changeMap(180000000);    
-            
+        } else if (splitted[0].equals("gmmap")) {
+            player.changeMap(180000000);
+
         } else if (splitted[0].equalsIgnoreCase("stun")) {
             MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             int level = Integer.parseInt(splitted[2]);
@@ -226,61 +232,62 @@ public class GMCommand {
         } else if (splitted[0].equalsIgnoreCase("oxmap")) {
             player.changeMap(109020001);
 
-       }else if (splitted[0].equals("maxeqstat") || splitted[0].equals("maxeqstats")){
+        } else if (splitted[0].equals("maxeqstat") || splitted[0].equals("maxeqstats")) {
             MapleInventory equip = player.getInventory(MapleInventoryType.EQUIP);
             for (byte i = 0; i < 101; i++) {
-                try{
-                Equip eu = (Equip) equip.getItem(i);
-                      int item = equip.getItem(i).getItemId();
-                                short hand = eu.getHands();
-                                      byte level = eu.getLevel();
-                                    Equip nItem = new Equip(item, i);
-                                    nItem.setStr(eu.getStr()); // STR
-                                    nItem.setDex(eu.getDex()); // DEX
-                                    nItem.setInt(eu.getInt()); // INT
-                                    nItem.setLuk(eu.getLuk()); //LUK
-                                    nItem.setWatk(eu.getWatk()); //WA
+                try {
+                    Equip eu = (Equip) equip.getItem(i);
+                    int item = equip.getItem(i).getItemId();
+                    short hand = eu.getHands();
+                    byte level = eu.getLevel();
+                    Equip nItem = new Equip(item, i);
+                    nItem.setStr(eu.getStr()); // STR
+                    nItem.setDex(eu.getDex()); // DEX
+                    nItem.setInt(eu.getInt()); // INT
+                    nItem.setLuk(eu.getLuk()); //LUK
+                    nItem.setWatk(eu.getWatk()); //WA
 
-                                    //All Previous stats excluding the top 5
-                                    nItem.setWdef(eu.getWdef());
-                                    nItem.setAcc(eu.getHands());
-                                    nItem.setAvoid(eu.getAvoid());
-                                    nItem.setExpiration(eu.getExpiration());
-                                    nItem.setJump(eu.getJump());
-                                    nItem.setLevel(eu.getLevel());
-                                    nItem.setMatk(eu.getMatk());
-                                    nItem.setMdef(eu.getMdef());
-                                    nItem.setMp(eu.getMp());
-                                    nItem.setOwner(eu.getOwner());
-                                    nItem.setSpeed(eu.getSpeed());
-                                    nItem.setUpgradeSlots((byte) eu.getUpgradeSlots());
-                                    nItem.setHands(eu.getHands());
-                                    nItem.setLevel(eu.getLevel());
-                                    short incval= (short)32767;
-                                        nItem.setWdef(incval);
-                                        nItem.setAcc(incval);
-                                        nItem.setAvoid(incval);
-                                        nItem.setJump(incval);
-                                        nItem.setMatk(incval);
-                                        nItem.setMdef(incval);
-                                        nItem.setMp(incval);
-                                        nItem.setSpeed(incval);
-                                        nItem.setUpgradeSlots((byte) eu.getUpgradeSlots());
-                                        nItem.setHands(incval);
-                                        nItem.setWatk(incval);
-                                        nItem.setDex(incval);
-                                        nItem.setInt(incval);
-                                        nItem.setStr(incval);
-                                        nItem.setLuk(incval);
-        IItem tempItem = c.getPlayer().getInventory(MapleInventoryType.EQUIP).getItem((byte) i);
-        MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.EQUIP, (byte)i, tempItem.getQuantity(), false, true);
-        player.getInventory(MapleInventoryType.EQUIP).addFromDB(nItem);
-        } catch(Exception e){}
-        }
-        c.getSession().write(MaplePacketCreator.getCharInfo(player));
-        player.getMap().removePlayer(player);
-        player.getMap().addPlayer(player);
-            
+                    //All Previous stats excluding the top 5
+                    nItem.setWdef(eu.getWdef());
+                    nItem.setAcc(eu.getHands());
+                    nItem.setAvoid(eu.getAvoid());
+                    nItem.setExpiration(eu.getExpiration());
+                    nItem.setJump(eu.getJump());
+                    nItem.setLevel(eu.getLevel());
+                    nItem.setMatk(eu.getMatk());
+                    nItem.setMdef(eu.getMdef());
+                    nItem.setMp(eu.getMp());
+                    nItem.setOwner(eu.getOwner());
+                    nItem.setSpeed(eu.getSpeed());
+                    nItem.setUpgradeSlots((byte) eu.getUpgradeSlots());
+                    nItem.setHands(eu.getHands());
+                    nItem.setLevel(eu.getLevel());
+                    short incval = (short) 32767;
+                    nItem.setWdef(incval);
+                    nItem.setAcc(incval);
+                    nItem.setAvoid(incval);
+                    nItem.setJump(incval);
+                    nItem.setMatk(incval);
+                    nItem.setMdef(incval);
+                    nItem.setMp(incval);
+                    nItem.setSpeed(incval);
+                    nItem.setUpgradeSlots((byte) eu.getUpgradeSlots());
+                    nItem.setHands(incval);
+                    nItem.setWatk(incval);
+                    nItem.setDex(incval);
+                    nItem.setInt(incval);
+                    nItem.setStr(incval);
+                    nItem.setLuk(incval);
+                    IItem tempItem = c.getPlayer().getInventory(MapleInventoryType.EQUIP).getItem((byte) i);
+                    MapleInventoryManipulator.removeFromSlot(c, MapleInventoryType.EQUIP, (byte) i, tempItem.getQuantity(), false, true);
+                    player.getInventory(MapleInventoryType.EQUIP).addFromDB(nItem);
+                } catch (Exception e) {
+                }
+            }
+            c.getSession().write(MaplePacketCreator.getCharInfo(player));
+            player.getMap().removePlayer(player);
+            player.getMap().addPlayer(player);
+
         } else if (splitted[0].equalsIgnoreCase("healperson")) {
             MapleCharacter victim = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             victim.setHp(victim.getMaxHp());
@@ -370,7 +377,7 @@ public class GMCommand {
             } else {
                 player.getMap().spawnMonsterOnGroudBelow(MapleLifeFactory.getMonster(Integer.parseInt(splitted[1])), player.getPosition());
             }
-            
+
         } else if (splitted[0].equalsIgnoreCase("unjail")) {
             MapleMap target = cserv.getMapFactory().getMap(100000000);
             cserv.getPlayerStorage().getCharacterByName(splitted[1]).changeMap(target, target.getPortal(0));
@@ -440,6 +447,18 @@ public class GMCommand {
                 }
                 builder.append(MapleCharacter.makeMapleReadable(chr.getName())).append(", ");
             }
+            builder.setLength(builder.length() - 2);
+            c.getSession().write(MaplePacketCreator.serverNotice(6, builder.toString()));
+
+        } else if (splitted[0].equalsIgnoreCase("shownpc")) {
+            StringBuilder builder = new StringBuilder("NPCs on Map: ");
+            MapleMapObject npc = null;
+            npc = player.getMap().getMapObject(MapleMapObjectType.NPC, npc.getObjectId());
+            if (builder.length() > 150) {
+                builder.setLength(builder.length() - 2);
+                player.dropMessage(builder.toString());
+            }
+            builder.append(MapleCharacter.makeMapleReadable(Integer.toString(npc.getObjectId()))).append(", ");
             builder.setLength(builder.length() - 2);
             c.getSession().write(MaplePacketCreator.serverNotice(6, builder.toString()));
 
@@ -546,9 +565,9 @@ public class GMCommand {
             for (MapleCharacter players : player.getMap().getCharacters()) {
                 players.setMuteLevel(0);
             }
-            
+
         } else if (splitted[0].equalsIgnoreCase("map")) {
-           player.changeMap(Integer.parseInt(splitted[1]), splitted.length > 2 ? Integer.parseInt(splitted[2]) : 0);
+            player.changeMap(Integer.parseInt(splitted[1]), splitted.length > 2 ? Integer.parseInt(splitted[2]) : 0);
 
         } else if (splitted[0].equalsIgnoreCase("gmshop")) {
             MapleShopFactory.getInstance().getShop(1337).sendShop(player.getClient());
@@ -580,7 +599,7 @@ public class GMCommand {
 
         } else if (splitted[0].equalsIgnoreCase("warpperson")) {
             cserv.getPlayerStorage().getCharacterByName(splitted[1]).changeMap(cserv.getPlayerStorage().getCharacterByName(splitted[2]).getMapId());
-            
+
         } else if (splitted[0].equalsIgnoreCase("playerswithplayer")) {
             MapleCharacter otherplayer = cserv.getPlayerStorage().getCharacterByName(splitted[1]);
             if (otherplayer != null) {
@@ -591,7 +610,7 @@ public class GMCommand {
                 //builder.setLength(builder.length() - 2);
                 otherplayer.getClient().getSession().write(MaplePacketCreator.serverNotice(6, players.toString()));
             } else {
-                player.dropMessage(" Can't find player: " + otherplayer.getName());
+                player.dropMessage("Can't find player: " + otherplayer.getName());
             }
 
         } else if (splitted[0].equalsIgnoreCase("closechalkboards")) {
@@ -636,7 +655,7 @@ public class GMCommand {
                 int petid = -1;
                 if (ItemConstants.isPet(itemId)) {
                     petid = MaplePet.createPet(itemId);
-                } 
+                }
                 MapleInventoryManipulator.addById(c, itemId, quantity, player.getName(), petid, -1);
             } else {
                 IItem toDrop;

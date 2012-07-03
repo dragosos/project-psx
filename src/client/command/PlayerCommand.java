@@ -351,9 +351,9 @@ public class PlayerCommand {
                 player.dropMessage("                       ...::: @go maps :::...                           ");
                 player.dropMessage("========================================================================");
                 player.dropMessage("| henesys | ellinia | perion | kerning | lith   | sleepywood | florina |");
-                player.dropMessage("| fog     | orbis   | happy  | elnath  | ereve  | ludi       | omega   |");
+                player.dropMessage("| orbis   | happy  | elnath  | ereve  | ludi       | omega   |");
                 player.dropMessage("| korean  | aqua    | leafre | mulung  | herb   | nlc        | shrine  |");
-                player.dropMessage("| shower  | fm      | guild  |");
+                player.dropMessage("| showa  | fm      | guild  |");
             }
             maps.clear();
 

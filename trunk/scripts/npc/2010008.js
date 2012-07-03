@@ -43,7 +43,7 @@ function action(mode, type, selection) {
             }
         }
         else if (status == 2 && sel == 0) {
-            cm.getPlayer().genericGuildMessage(17);
+            cm.getPlayer().genericGuildMessage(18);
             cm.dispose();
         } else
             cm.dispose();

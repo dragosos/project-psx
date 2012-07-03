@@ -28,7 +28,7 @@ public class DonatorCommand {
 
         } else if (splitted[0].equalsIgnoreCase("dcommands")) {
             player.dropMessage("===================================================");
-            player.dropMessage("             RoyalMS Donator Commands              ");
+            player.dropMessage("             Project PSX Donator Commands              ");
             player.dropMessage("===================================================");
             player.dropMessage("!buffme              - Sends an array of buffs your way!");
             player.dropMessage("!shout [Message]     - Sends a message to the whole server.");

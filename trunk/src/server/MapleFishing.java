@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author FateJiki of RaGeZONE 
  */ 
 public class MapleFishing { 
- /*   private final static List<String> fishers = new ArrayList<String>();
+    private final static List<String> fishers = new ArrayList<String>();
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     
     public static void removeFisher(String name){
@@ -118,5 +118,4 @@ public class MapleFishing {
 
         return finalID; 
     } 
-}  */
 }

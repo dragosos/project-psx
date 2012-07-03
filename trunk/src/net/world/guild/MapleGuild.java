@@ -47,7 +47,7 @@ public class MapleGuild implements java.io.Serializable {
     public final static int CHANGE_EMBLEM_COST = 5000000;
 
     private enum BCOp {
-        NONE, DISBAND, EMBELMCHANGE
+        NONE, DISBAND, EMBLEMCHANGE
     }
     private List<MapleGuildCharacter> members;
     private String rankTitles[] = new String[5]; // 1 = master, 2 = jr, 5 = lowest member
@@ -281,7 +281,7 @@ public class MapleGuild implements java.io.Serializable {
                     if (notifications.get(ch).size() > 0) {
                         if (bcop == BCOp.DISBAND) {
                             cwi.setGuildAndRank(notifications.get(ch), 0, 5, exceptionId);
-                        } else if (bcop == BCOp.EMBELMCHANGE) {
+                        } else if (bcop == BCOp.EMBLEMCHANGE) {
                             cwi.changeEmblem(this.id, notifications.get(ch), new MapleGuildSummary(this));
                         } else {
                             cwi.sendPacket(notifications.get(ch), packet, exceptionId);
@@ -504,7 +504,7 @@ public class MapleGuild implements java.io.Serializable {
         this.logo = logo;
         this.logoColor = logocolor;
         this.writeToDB(false);
-        this.broadcast(null, -1, BCOp.EMBELMCHANGE);
+        this.broadcast(null, -1, BCOp.EMBLEMCHANGE);
     }
 
     public MapleGuildCharacter getMGC(int cid) {
@@ -566,7 +566,7 @@ public class MapleGuild implements java.io.Serializable {
             ps.close();
             rs.close();
         } catch (SQLException e) {
-            System.out.println("failed to display guild ranks. " + e);
+            System.out.println("Failed to display guild ranks. " + e);
         }
     }
 

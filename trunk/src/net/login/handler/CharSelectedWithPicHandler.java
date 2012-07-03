@@ -21,7 +21,7 @@ public class CharSelectedWithPicHandler extends AbstractMaplePacketHandler {
 
     @Override
     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
-        System.out.println("Using pic ");
+        System.out.println("Using pic");
         String pic = slea.readMapleAsciiString();
         int charId = slea.readInt();
         String macs = slea.readMapleAsciiString();

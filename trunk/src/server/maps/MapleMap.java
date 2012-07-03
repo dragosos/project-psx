@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,6 @@ import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleInventoryType;
 import client.MaplePet;
-import client.MapleQuestStatus;
 import client.status.MonsterStatus;
 import client.status.MonsterStatusEffect;
 import constants.ItemConstants;
@@ -69,17 +67,14 @@ import server.events.MapleFitness;
 import server.events.MapleOla;
 import server.events.MapleOxQuiz;
 import server.events.MapleSnowball;
-import server.events.MonsterCarnival;
-import server.events.MonsterCarnivalParty;
 import server.life.MapleLifeFactory;
 import server.life.MapleMonsterInformationProvider;
 import server.life.MonsterDropEntry;
 import server.life.MonsterGlobalDropEntry;
 import tools.Pair;
-import server.pqs.*;
-import server.clones.*;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.*;
+import server.calendar.CalendarEventsLibrary;
+import server.life.*;
 
 public class MapleMap {
 
@@ -87,10 +82,12 @@ public class MapleMap {
     private final Map<Integer, MapleMapObject> mapobjects = new LinkedHashMap<Integer, MapleMapObject>();
     private Collection<SpawnPoint> monsterSpawn = new LinkedList<SpawnPoint>();
     private final AtomicInteger spawnedMonstersOnMap = new AtomicInteger(0);
+    private final Collection<MapleNPC> npcs = new ArrayList<MapleNPC>();
     private final Collection<MapleCharacter> characters = new ArrayList<MapleCharacter>();
     private Map<Integer, MaplePortal> portals = new HashMap<Integer, MaplePortal>();
     private List<Rectangle> areas = new ArrayList<Rectangle>();
     private MapleFootholdTree footholds = null;
+    private static MapleNPCStats stats;
     private int mapid;
     private int runningOid = 100000;
     private int returnMapId;
@@ -358,7 +355,7 @@ public class MapleMap {
         }
         if (!chr.getDonator().isActive()) {
             spawnMesoDrop((mesos * ServerConstants.MESO_RATE) / 2, calcDropPos(pos, mob.getPosition()), mob, chr, false, droptype);
-            chr.gainMeso((mesos * ServerConstants.MESO_RATE) / 2, true);
+            //chr.gainMeso((mesos * ServerConstants.MESO_RATE) / 2, true);
             int i = (int) (100.0 * Math.random());
             if (i < 20) {
                 chr.announce(MaplePacketCreator.MapMessage("You have gained 50NX!"));
@@ -799,6 +796,10 @@ public class MapleMap {
         }
         return false;
     }
+    
+    public MapleMapObject getMapObject(MapleMapObjectType type){
+        return mapobjects.get(MapleMapObjectType.NPC);
+    }
 
     public MapleMapObject getMapObject(int oid) {
         return mapobjects.get(oid);
@@ -1221,7 +1222,8 @@ public class MapleMap {
             }, 15 * 60 * 1000 + 3000);
         }
         String name = "You are in " + getMapName();
-        chr.announce(MaplePacketCreator.MapMessage(name));
+        //Announces map name on screen...
+        //chr.announce(MaplePacketCreator.MapMessage(name));
         MaplePet[] pets = chr.getPets();
         for (int i = 0; i < chr.getPets().length; i++) {
             if (pets[i] != null) {
@@ -1253,9 +1255,10 @@ public class MapleMap {
             chr.getEvanDragon().sendSpawnData(chr.getClient());
             // broadcastMessage(chr, MaplePacketCreator.spawnDragon(chr.getEvanDragon()));
         }
-
-        chr.announce(MaplePacketCreator.startMapEffect("", ChannelServer.getInstance(channel).getCalendarManager().retrieveMapEffectID(), true));
-        sendObjectPlacement(chr.getClient());
+        
+        //Calendar Events
+        //chr.announce(MaplePacketCreator.startMapEffect("", ChannelServer.getInstance(channel).getCalendarManager().retrieveMapEffectID(), true));
+        //sendObjectPlacement(chr.getClient());
         if (isStartingEventMap() && !eventStarted()) {
             chr.getMap().getPortal("join00").setPortalStatus(false);
         }
@@ -1599,6 +1602,10 @@ public class MapleMap {
 
     public Collection<MapleCharacter> getCharacters() {
         return Collections.synchronizedCollection(characters);
+    }
+    
+     public static MapleMapObjectType getNPCs() {
+        return MapleMapObjectType.NPC;
     }
 
     public MapleCharacter getCharacterById(int id) {

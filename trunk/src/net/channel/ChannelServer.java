@@ -142,7 +142,7 @@ public class ChannelServer implements Runnable {
             if (wci != null) {
                 wci.isAvailable();
             } else {
-                System.out.println("WCI IS NULL :O");
+                System.out.println("WCI IS NULL");
             }
         } catch (RemoteException ex) {
             synchronized (worldReady) {

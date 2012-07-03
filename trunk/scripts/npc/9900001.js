@@ -50,7 +50,7 @@ function start() {
     //        cm.getPlayer().levelUp(false); 
     //        cm.dispose(); 
     } else if (cm.getMapId() == inventoryClearMap && cm.getPlayer().isGM()) { 
-        cm.sendYesNo("Hi I am KIN Version 2. 1.1 has been upgraded. Do you want to clear or remove some things from your inventory?"); 
+        cm.sendYesNo("Do you want to clear or remove some things from your inventory?"); 
     } else { 
         cm.dispose(); 
     //        cm.runDinamycEvent("Test"); // osiris can't spell dynamic 

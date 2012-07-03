@@ -48,7 +48,7 @@ function action(mode, type, selection) {
                 if (status == 0) {
                     cm.sendNext("Hi there! I'm Tory. This place is covered with mysterious aura of the full moon, and no one person can enter here by him/herself.");
                 } else if (status == 1) {
-                    cm.sendSimple("If you'd like to enter here, the leader of your party will have to talk to me. Talk to your party leader about this.");
+                    cm.sendOk("If you'd like to enter here, the leader of your party will have to talk to me. Talk to your party leader about this.");
                 } 
             } else {
                 if (status == 0) {
@@ -118,12 +118,12 @@ function action(mode, type, selection) {
                     }
                     cm.dispose();
                 } else if (cm.getPlayer().getGivenRiceCakes() < 20) {
-                    cm.sendOk("Thank you for rice cake number " + cm.getPlayer().getGivenRiceCakes() + "!! I really appreciate it!");
+                    cm.sendOk("Thank you for the " + cm.getPlayer().getGivenRiceCakes() + " rice cakes. I really appreciate it!");
                 }
             }
         } else if (cm.getPlayer().getMap().getId() == 910010400) {
             if (status == 0) {
-                cm.sendNext("Are you guys done putting a good whooping on those pigs? It looks like you'll have nothing else to do here now. Would you like to leave this place? \r\n#b#L0# Yes, I'd like to leave here.#l");
+                cm.sendNext("It seems you have nothing else to do here now. Would you like to leave this place? \r\n#b#L0# Yes, I'd like to leave here.#l");
             } else if (status == 1) {
                 if (cm.getParty() != null)
                     cm.warpParty(100000200);

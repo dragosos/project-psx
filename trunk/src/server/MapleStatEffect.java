@@ -1,24 +1,24 @@
 /*
-	This file is part of the OdinMS Maple Story Server
-    Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
-		       Matthias Butz <matze@odinms.de>
-		       Jan Christian Meyer <vimes@odinms.de>
+ This file is part of the OdinMS Maple Story Server
+ Copyright (C) 2008 Patrick Huy <patrick.huy@frz.cc>
+ Matthias Butz <matze@odinms.de>
+ Jan Christian Meyer <vimes@odinms.de>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation version 3 as published by
-    the Free Software Foundation. You may not use, modify or distribute
-    this program under any other version of the GNU Affero General Public
-    License.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation version 3 as published by
+ the Free Software Foundation. You may not use, modify or distribute
+ this program under any other version of the GNU Affero General Public
+ License.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package server;
 
 import java.awt.Point;
@@ -72,6 +72,7 @@ import tools.DatabaseConnection;
  * @author Frz
  */
 public class MapleStatEffect implements Serializable {
+
     private static final long serialVersionUID = 3692756402846632237L;
     private short watk, matk, wdef, mdef, acc, avoid, speed, jump;
     private short hp, mp;
@@ -101,7 +102,7 @@ public class MapleStatEffect implements Serializable {
     }
 
     public static MapleStatEffect loadItemEffectFromData(MapleData source, int itemid, int level) {
-        return loadFromData(source,  itemid, false, false, level);
+        return loadFromData(source, itemid, false, false, level);
     }
 
     private static void addBuffStatPairToListIfNotZero(List<Pair<MapleBuffStat, Integer>> list, MapleBuffStat buffstat, Integer val) {
@@ -109,29 +110,28 @@ public class MapleStatEffect implements Serializable {
             list.add(new Pair<MapleBuffStat, Integer>(buffstat, val));
         }
     }
-    
 
     private static MapleStatEffect loadFromData(MapleData source, int sourceid, boolean skill, boolean overTime, int level) {
         MapleStatEffect ret = new MapleStatEffect();
         ret.duration = MapleDataTool.getInt("time", source, 0, level) * 3;
-       // ret.duration = 100000000;
-        if(ret.duration < 60){
+        // ret.duration = 100000000;
+        if (ret.duration < 60) {
             ret.duration = 60 * 5; // 5 minutes
         }
-        
+
         ret.hp = (short) MapleDataTool.getInt("hp", source, 0, level);
         ret.mp = (short) MapleDataTool.getInt("mp", source, 0, level);
-        if(skill){
-        ret.hpR = MapleDataTool.getInt("x", source, 0, level) / 100.0;
-        ret.mpR = MapleDataTool.getInt("y", source, 0, level) / 100.0;
+        if (skill) {
+            ret.hpR = MapleDataTool.getInt("x", source, 0, level) / 100.0;
+            ret.mpR = MapleDataTool.getInt("y", source, 0, level) / 100.0;
         } else {
             ret.hpR = MapleDataTool.getInt("hpR", source, 0, 1);
             ret.mpR = MapleDataTool.getInt("mpR", source, 0, 1);
         }
         ret.mpCon = (short) (MapleDataTool.getInt("mpCon", source, 0, level) / 3);
         ret.hpCon = (short) (MapleDataTool.getInt("hpCon", source, 0, level) / 3);
-        if(sourceid == BladeLord.MIRROR_IMAGE){
-          //  System.out.println("MPCON : " + ret.mpCon + " || hpCON : " + ret.hpCon + " DURATION : " + ret.duration);
+        if (sourceid == BladeLord.MIRROR_IMAGE) {
+            //  System.out.println("MPCON : " + ret.mpCon + " || hpCON : " + ret.hpCon + " DURATION : " + ret.duration);
         }
         int iprop = MapleDataTool.getInt("prop", source, 100, level);
         ret.prop = iprop / 100.0;
@@ -149,7 +149,7 @@ public class MapleStatEffect implements Serializable {
             ret.overTime = overTime;
         }
         ArrayList<Pair<MapleBuffStat, Integer>> statups = new ArrayList<Pair<MapleBuffStat, Integer>>();
-        
+
         ret.watk = (short) MapleDataTool.getInt("pad", source, 0, level);
         ret.wdef = (short) MapleDataTool.getInt("pdd", source, 0, level);
         ret.matk = (short) MapleDataTool.getInt("mad", source, 0, level);
@@ -175,8 +175,8 @@ public class MapleStatEffect implements Serializable {
         }
         int x = MapleDataTool.getInt("x", source, 0, level);
         ret.x = x;
-        if(sourceid == BladeLord.MIRROR_IMAGE){
-          //  System.out.println("X : " + x);
+        if (sourceid == BladeLord.MIRROR_IMAGE) {
+            //  System.out.println("X : " + x);
         }
         ret.y = MapleDataTool.getInt("y", source, 0, level);
         ret.damage = MapleDataTool.getIntConvert("damage", source, 100, level);
@@ -206,144 +206,144 @@ public class MapleStatEffect implements Serializable {
                 case Noblesse.MONSTER_RIDER:
                 case Legend.MONSTER_RIDER:
                 case SkillConstants.Corsair.BATTLE_SHIP:
-                case SkillConstants.Beginner.YETI_MOUNT1: 
-                case Noblesse.YETI_MOUNT1: 
-                case Legend.YETI_MOUNT1:                   
-                case SkillConstants.Beginner.OSTRICH: 
-                case Noblesse.OSTRICH: 
-                case Legend.OSTRICH: 
-                case Citizen.OSTRICH: 
-                case SkillConstants.Beginner.CROCO: 
-                case Noblesse.CROCO: 
-                case Legend.CROCO: 
-                case Citizen.CROCO: 
-                case SkillConstants.Beginner.WITCH_BROOMSTICK: 
-                case Noblesse.WITCH_BROOMSTICK: 
-                case Legend.WITCH_BROOMSTICK: 
-                case Citizen.WITCH_BROOMSTICK: 
-                case SkillConstants.Beginner.BALROG_MOUNT: 
-                case Noblesse.BALROG_MOUNT: 
-                case Legend.BALROG_MOUNT: 
-                case Citizen.BALROG_MOUNT: 
-                case SkillConstants.Beginner.CHICKEN: 
-                case Legend.CHICKEN: 
-                case Noblesse.CHICKEN: 
-                case Citizen.CHICKEN: 
-                case SkillConstants.Beginner.OWL: 
-                case Legend.OWL: 
-                case Noblesse.OWL: 
-                case Citizen.OWL: 
-                 case SkillConstants.Beginner.MOTHERSHIP: 
-                case Legend.MOTHERSHIP: 
-                case Noblesse.MOTHERSHIP: 
-                case Citizen.MOTHERSHIP: 
-                case SkillConstants.Beginner.OS3A_MACHINE: 
-                case Legend.OS3A_MACHINE: 
-                case Noblesse.OS3A_MACHINE: 
-                case Citizen.OS3A_MACHINE: 
-                case SkillConstants.Beginner.OS4_SHUTTLE: 
-                case Legend.OS4_SHUTTLE: 
-                case Noblesse.OS4_SHUTTLE: 
-                case Citizen.OS4_SHUTTLE: 
-                case SkillConstants.Beginner.ROGUE_RABBIT: 
-                case Legend.ROGUE_RABBIT: 
-                case Noblesse.ROGUE_RABBIT: 
-                case Citizen.ROGUE_RABBIT: 
-                case SkillConstants.Beginner.SMALL_RABBIT: 
-                case Legend.SMALL_RABBIT: 
-                case Noblesse.SMALL_RABBIT: 
-                case Citizen.SMALL_RABBIT: 
-                case SkillConstants.Beginner.LEONARDO_THE_LION: 
-                case Legend.LEONARDO_THE_LION: 
-                case Noblesse.LEONARDO_THE_LION: 
-                case Citizen.LEONARDO_THE_LION: 
-                case SkillConstants.Beginner.RACE_KART: 
-                case Legend.RACE_KART: 
-                case Noblesse.RACE_KART: 
-                case Citizen.RACE_KART: 
-                case SkillConstants.Beginner.ZD_TIGER: 
-                case Legend.ZD_TIGER: 
-                case Noblesse.ZD_TIGER: 
-                case Citizen.ZD_TIGER: 
-                case SkillConstants.Beginner.MIST_BALROG: 
-                case Legend.MIST_BALROG: 
-                case Noblesse.MIST_BALROG: 
-                case Citizen.MIST_BALROG: 
-                case SkillConstants.Beginner.SHINJO: 
-                case Legend.SHINJO: 
-                case Noblesse.SHINJO: 
-                case Citizen.SHINJO: 
-                case SkillConstants.Beginner.ORANGE_MUSHROOM: 
-                case Legend.ORANGE_MUSHROOM: 
-                case Noblesse.ORANGE_MUSHROOM: 
-                case Citizen.ORANGE_MUSHROOM: 
-                case SkillConstants.Beginner.NIGHTMARE: 
-                case Legend.NIGHTMARE: 
-                case Noblesse.NIGHTMARE: 
-                case Citizen.NIGHTMARE: 
-                case SkillConstants.Beginner.YETI: 
-                case Legend.YETI: 
-                case Noblesse.YETI: 
-                case Citizen.YETI: 
-                case SkillConstants.Beginner.PINK_BEAR_HOT_AIR_BALLOON: 
-                case Legend.PINK_BEAR_HOT_AIR_BALLOON: 
-                case Noblesse.PINK_BEAR_HOT_AIR_BALLOON: 
-                case Citizen.PINK_BEAR_HOT_AIR_BALLOON: 
-                case SkillConstants.Beginner.TRANSFORMATION_ROBOT: 
-                case Noblesse.TRANSFORMATION_ROBOT: 
-                case Legend.TRANSFORMATION_ROBOT: 
-                case Citizen.TRANSFORMATION_ROBOT: 
-                case SkillConstants.Beginner.MOTORCYCLE: 
-                case Legend.MOTORCYCLE: 
-                case Noblesse.MOTORCYCLE: 
-                case Citizen.MOTORCYCLE: 
-                case SkillConstants.Beginner.POWER_SUIT: 
-                case Legend.POWER_SUIT: 
-                case Noblesse.POWER_SUIT: 
-                case Citizen.POWER_SUIT: 
-                case SkillConstants.Beginner.NIMBUS_CLOUD: 
-                case Legend.NIMBUS_CLOUD: 
-                case Noblesse.NIMBUS_CLOUD: 
-                case Citizen.NIMBUS_CLOUD: 
-                case SkillConstants.Beginner.CHARGE_WOODEN_PONY: 
-                case Legend.CHARGE_WOODEN_PONY: 
-                case Noblesse.CHARGE_WOODEN_PONY: 
-                case Citizen.CHARGE_WOODEN_PONY: 
-                case SkillConstants.Beginner.BLACK_SCOOTER: 
-                case Legend.BLACK_SCOOTER: 
-                case Noblesse.BLACK_SCOOTER: 
-                case Citizen.BLACK_SCOOTER: 
-                case SkillConstants.Beginner.PINK_SCOOTER: 
-                case Legend.PINK_SCOOTER: 
-                case Noblesse.PINK_SCOOTER: 
-                case Citizen.PINK_SCOOTER: 
-                case SkillConstants.Beginner.GARGOYLE: 
-                case Legend.GARGOYLE: 
-                case Noblesse.GARGOYLE: 
-                case Citizen.GARGOYLE: 
-                case SkillConstants.Beginner.SPACESHIP: 
-                case Legend.SPACESHIP: 
-                case Noblesse.SPACESHIP: 
-                case Citizen.SPACESHIP: 
-                case SkillConstants.Beginner.UNICORN: 
-                case Legend.UNICORN: 
-                case Noblesse.UNICORN: 
-                case Citizen.UNICORN: 
-                case SkillConstants.Beginner.RED_TRUCK: 
-                case Legend.RED_TRUCK: 
-                case Noblesse.RED_TRUCK: 
-                case Citizen.RED_TRUCK: 
-                case SkillConstants.Beginner.LOW_RIDER: 
-                case Legend.LOW_RIDER: 
-                case Noblesse.LOW_RIDER: 
-                case Citizen.LOW_RIDER: 
-                case SkillConstants.Beginner.LION: 
-                case Legend.LION: 
-                case Noblesse.LION: 
-                case Citizen.LION: 
-                case SkillConstants.Beginner.YETI_MOUNT: 
-                case Legend.YETI_MOUNT: 
-                case Noblesse.YETI_MOUNT: 
+                case SkillConstants.Beginner.YETI_MOUNT1:
+                case Noblesse.YETI_MOUNT1:
+                case Legend.YETI_MOUNT1:
+                case SkillConstants.Beginner.OSTRICH:
+                case Noblesse.OSTRICH:
+                case Legend.OSTRICH:
+                case Citizen.OSTRICH:
+                case SkillConstants.Beginner.CROCO:
+                case Noblesse.CROCO:
+                case Legend.CROCO:
+                case Citizen.CROCO:
+                case SkillConstants.Beginner.WITCH_BROOMSTICK:
+                case Noblesse.WITCH_BROOMSTICK:
+                case Legend.WITCH_BROOMSTICK:
+                case Citizen.WITCH_BROOMSTICK:
+                case SkillConstants.Beginner.BALROG_MOUNT:
+                case Noblesse.BALROG_MOUNT:
+                case Legend.BALROG_MOUNT:
+                case Citizen.BALROG_MOUNT:
+                case SkillConstants.Beginner.CHICKEN:
+                case Legend.CHICKEN:
+                case Noblesse.CHICKEN:
+                case Citizen.CHICKEN:
+                case SkillConstants.Beginner.OWL:
+                case Legend.OWL:
+                case Noblesse.OWL:
+                case Citizen.OWL:
+                case SkillConstants.Beginner.MOTHERSHIP:
+                case Legend.MOTHERSHIP:
+                case Noblesse.MOTHERSHIP:
+                case Citizen.MOTHERSHIP:
+                case SkillConstants.Beginner.OS3A_MACHINE:
+                case Legend.OS3A_MACHINE:
+                case Noblesse.OS3A_MACHINE:
+                case Citizen.OS3A_MACHINE:
+                case SkillConstants.Beginner.OS4_SHUTTLE:
+                case Legend.OS4_SHUTTLE:
+                case Noblesse.OS4_SHUTTLE:
+                case Citizen.OS4_SHUTTLE:
+                case SkillConstants.Beginner.ROGUE_RABBIT:
+                case Legend.ROGUE_RABBIT:
+                case Noblesse.ROGUE_RABBIT:
+                case Citizen.ROGUE_RABBIT:
+                case SkillConstants.Beginner.SMALL_RABBIT:
+                case Legend.SMALL_RABBIT:
+                case Noblesse.SMALL_RABBIT:
+                case Citizen.SMALL_RABBIT:
+                case SkillConstants.Beginner.LEONARDO_THE_LION:
+                case Legend.LEONARDO_THE_LION:
+                case Noblesse.LEONARDO_THE_LION:
+                case Citizen.LEONARDO_THE_LION:
+                case SkillConstants.Beginner.RACE_KART:
+                case Legend.RACE_KART:
+                case Noblesse.RACE_KART:
+                case Citizen.RACE_KART:
+                case SkillConstants.Beginner.ZD_TIGER:
+                case Legend.ZD_TIGER:
+                case Noblesse.ZD_TIGER:
+                case Citizen.ZD_TIGER:
+                case SkillConstants.Beginner.MIST_BALROG:
+                case Legend.MIST_BALROG:
+                case Noblesse.MIST_BALROG:
+                case Citizen.MIST_BALROG:
+                case SkillConstants.Beginner.SHINJO:
+                case Legend.SHINJO:
+                case Noblesse.SHINJO:
+                case Citizen.SHINJO:
+                case SkillConstants.Beginner.ORANGE_MUSHROOM:
+                case Legend.ORANGE_MUSHROOM:
+                case Noblesse.ORANGE_MUSHROOM:
+                case Citizen.ORANGE_MUSHROOM:
+                case SkillConstants.Beginner.NIGHTMARE:
+                case Legend.NIGHTMARE:
+                case Noblesse.NIGHTMARE:
+                case Citizen.NIGHTMARE:
+                case SkillConstants.Beginner.YETI:
+                case Legend.YETI:
+                case Noblesse.YETI:
+                case Citizen.YETI:
+                case SkillConstants.Beginner.PINK_BEAR_HOT_AIR_BALLOON:
+                case Legend.PINK_BEAR_HOT_AIR_BALLOON:
+                case Noblesse.PINK_BEAR_HOT_AIR_BALLOON:
+                case Citizen.PINK_BEAR_HOT_AIR_BALLOON:
+                case SkillConstants.Beginner.TRANSFORMATION_ROBOT:
+                case Noblesse.TRANSFORMATION_ROBOT:
+                case Legend.TRANSFORMATION_ROBOT:
+                case Citizen.TRANSFORMATION_ROBOT:
+                case SkillConstants.Beginner.MOTORCYCLE:
+                case Legend.MOTORCYCLE:
+                case Noblesse.MOTORCYCLE:
+                case Citizen.MOTORCYCLE:
+                case SkillConstants.Beginner.POWER_SUIT:
+                case Legend.POWER_SUIT:
+                case Noblesse.POWER_SUIT:
+                case Citizen.POWER_SUIT:
+                case SkillConstants.Beginner.NIMBUS_CLOUD:
+                case Legend.NIMBUS_CLOUD:
+                case Noblesse.NIMBUS_CLOUD:
+                case Citizen.NIMBUS_CLOUD:
+                case SkillConstants.Beginner.CHARGE_WOODEN_PONY:
+                case Legend.CHARGE_WOODEN_PONY:
+                case Noblesse.CHARGE_WOODEN_PONY:
+                case Citizen.CHARGE_WOODEN_PONY:
+                case SkillConstants.Beginner.BLACK_SCOOTER:
+                case Legend.BLACK_SCOOTER:
+                case Noblesse.BLACK_SCOOTER:
+                case Citizen.BLACK_SCOOTER:
+                case SkillConstants.Beginner.PINK_SCOOTER:
+                case Legend.PINK_SCOOTER:
+                case Noblesse.PINK_SCOOTER:
+                case Citizen.PINK_SCOOTER:
+                case SkillConstants.Beginner.GARGOYLE:
+                case Legend.GARGOYLE:
+                case Noblesse.GARGOYLE:
+                case Citizen.GARGOYLE:
+                case SkillConstants.Beginner.SPACESHIP:
+                case Legend.SPACESHIP:
+                case Noblesse.SPACESHIP:
+                case Citizen.SPACESHIP:
+                case SkillConstants.Beginner.UNICORN:
+                case Legend.UNICORN:
+                case Noblesse.UNICORN:
+                case Citizen.UNICORN:
+                case SkillConstants.Beginner.RED_TRUCK:
+                case Legend.RED_TRUCK:
+                case Noblesse.RED_TRUCK:
+                case Citizen.RED_TRUCK:
+                case SkillConstants.Beginner.LOW_RIDER:
+                case Legend.LOW_RIDER:
+                case Noblesse.LOW_RIDER:
+                case Citizen.LOW_RIDER:
+                case SkillConstants.Beginner.LION:
+                case Legend.LION:
+                case Noblesse.LION:
+                case Citizen.LION:
+                case SkillConstants.Beginner.YETI_MOUNT:
+                case Legend.YETI_MOUNT:
+                case Noblesse.YETI_MOUNT:
                 case Citizen.YETI_MOUNT:
                 case Noblesse.YETI_MOUNT2:
                 case Legend.YETI_MOUNT2:
@@ -484,13 +484,13 @@ public class MapleStatEffect implements Serializable {
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.SHADOW_CLAW, Integer.valueOf(0)));
                     break;
                 // PIRATE
-               //case Pirate.DASH:
-              ///  case ThunderBreaker.DASH:
-               // case SkillConstants.Beginner.SPACE_DASH:
-               /// case Noblesse.SPACE_DASH:
-		///    statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.DASH2, Integer.valueOf(ret.x)));
-		//    statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.DASH, Integer.valueOf(ret.y)));
-               //     break;
+                //case Pirate.DASH:
+                ///  case ThunderBreaker.DASH:
+                // case SkillConstants.Beginner.SPACE_DASH:
+                /// case Noblesse.SPACE_DASH:
+                ///    statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.DASH2, Integer.valueOf(ret.x)));
+                //    statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.DASH, Integer.valueOf(ret.y)));
+                //     break;
                 case SkillConstants.Corsair.SPEED_INFUSION:
                 case SkillConstants.Buccaneer.SPEED_INFUSION:
                 case ThunderBreaker.SPEED_INFUSION:
@@ -665,7 +665,7 @@ public class MapleStatEffect implements Serializable {
                     monsterStatus.put(MonsterStatus.FREEZE, Integer.valueOf(1));
                     break;
                 //ARAN
-                case SkillConstants.Aran.COMBO_ABILITY: 
+                case SkillConstants.Aran.COMBO_ABILITY:
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.ARAN_COMBO, 100));
                     break;
                 case SkillConstants.Aran.COMBO_BARRIER:
@@ -688,7 +688,7 @@ public class MapleStatEffect implements Serializable {
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.ELEMENTAL_RESET, ret.x));
                     break;
                 case SkillConstants.Evan.MAGIC_SHIELD:
-                    statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.MAGIC_SHIELD,  ret.x));
+                    statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.MAGIC_SHIELD, ret.x));
                     break;
                 case SkillConstants.Evan.KILLER_WINGS:
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.WINGS, ret.x));
@@ -710,7 +710,7 @@ public class MapleStatEffect implements Serializable {
                     break;
                 case SkillConstants.BladeSpecialist.TORNADO_SPIN:
                 case SkillConstants.BladeSpecialist.TORNADO_SPIN_ATTACK:
-                 //   statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.TWISTER, ret.x));
+                    //   statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.TWISTER, ret.x));
                     break;
                 case SkillConstants.BladeMaster.FINAL_CUT:
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.FINAL_CUT, ret.x));
@@ -722,8 +722,8 @@ public class MapleStatEffect implements Serializable {
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.SUMMON, ret.x));
                     break;
                 case BattleMage.BLUE_AURA:
-                   // statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.BLUE_AURA, ret.x));
-                   // statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.AURA_EFFECT, ret.x));
+                    // statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.BLUE_AURA, ret.x));
+                    // statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.AURA_EFFECT, ret.x));
                     break;
                 case BattleMage.YELLOW_AURA:
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.YELLOW_AURA, ret.x));
@@ -776,8 +776,8 @@ public class MapleStatEffect implements Serializable {
                 case Mechanic.EXTREME_MECH:
                     statups.add(new Pair<MapleBuffStat, Integer>(MapleBuffStat.MECH_TRANSFORM, ret.x));
                     break;
-              //  case BattleMage.TWISTER_SPIN:
-                    
+                //  case BattleMage.TWISTER_SPIN:
+
             }
         }
         if (ret.isMorph()) {
@@ -821,9 +821,10 @@ public class MapleStatEffect implements Serializable {
         }
     }
 
-    public boolean applyToPetBuff(MapleCharacter chr){
+    public boolean applyToPetBuff(MapleCharacter chr) {
         return applyTo(chr, chr, true, null, true);
     }
+
     public boolean applyTo(MapleCharacter chr) {
         return applyTo(chr, chr, true, null, false);
     }
@@ -831,8 +832,8 @@ public class MapleStatEffect implements Serializable {
     public boolean applyTo(MapleCharacter chr, Point pos) {
         return applyTo(chr, chr, true, pos, false);
     }
-    
-    public boolean applyTo(MapleCharacter chr, Point pos, boolean primary){
+
+    public boolean applyTo(MapleCharacter chr, Point pos, boolean primary) {
         return applyTo(chr, chr, primary, pos, false);
     }
 
@@ -843,7 +844,7 @@ public class MapleStatEffect implements Serializable {
         }
         int hpchange = calcHPChange(applyfrom, primary);
         int mpchange = calcMPChange(applyfrom, primary);
-        if(petBuff){
+        if (petBuff) {
             hpchange = 0;
             mpchange = 0;
         }
@@ -869,7 +870,7 @@ public class MapleStatEffect implements Serializable {
         }
         if (applyfrom.getMp() < getMpCon()) {
             applyfrom.getAutobanManager().addPoint(AutobanFactory.MPCON, "mpCon hack for skill:" + sourceid + "; Player MP: " + applyto.getMp() + " MP Needed: " + getMpCon());
-        } 
+        }
         if (hpchange != 0) {
             if (hpchange < 0 && (-hpchange) > applyto.getHp()) {
                 return false;
@@ -883,8 +884,10 @@ public class MapleStatEffect implements Serializable {
         }
         int newMp = applyto.getMp() + mpchange;
         if (mpchange != 0 && !petBuff) {
-            if (mpchange < 0 && -mpchange > applyto.getMp()) return false;
-            
+            if (mpchange < 0 && -mpchange > applyto.getMp()) {
+                return false;
+            }
+
             applyto.setMp(newMp);
             hpmpupdate.add(new Pair<MapleStat, Integer>(MapleStat.MP, Integer.valueOf(applyto.getMp())));
         }
@@ -902,8 +905,10 @@ public class MapleStatEffect implements Serializable {
                     }
                 }
                 applyto.changeMap(target);
-            } else return false;
-            
+            } else {
+                return false;
+            }
+
         }
         if (isShadowClaw()) {
             int projectile = 0;
@@ -917,24 +922,30 @@ public class MapleStatEffect implements Serializable {
                     }
                 }
             }
-            if (projectile == 0) return false;
-            else MapleInventoryManipulator.removeById(applyto.getClient(), MapleInventoryType.USE, projectile, 200, false, true);
-            
+            if (projectile == 0) {
+                return false;
+            } else {
+                MapleInventoryManipulator.removeById(applyto.getClient(), MapleInventoryType.USE, projectile, 200, false, true);
+            }
+
         }
         SummonMovementType summonMovementType = getSummonMovementType();
-        if (overTime || isCygnusFA() || summonMovementType != null)
+        if (overTime || isCygnusFA() || summonMovementType != null) {
             applyBuffEffect(applyfrom, applyto, primary);
-        
+        }
+
         if (primary && (overTime || isHeal())) {
             applyBuff(applyfrom);
         }
-        
-        if (primary && isMonsterBuff()) 
+
+        if (primary && isMonsterBuff()) {
             applyMonsterBuff(applyfrom);
-        
-        if (this.getFatigue() != 0) 
+        }
+
+        if (this.getFatigue() != 0) {
             applyto.getMount().setTiredness(applyto.getMount().getTiredness() + this.getFatigue());
-        
+        }
+
         if (summonMovementType != null) {
             int sid = sourceid == BladeLord.MIRROR_IMAGE ? applyfrom.getId() : sourceid;
             final MapleSummon tosummon = new MapleSummon(applyfrom, sid, applyto.getPosition(), summonMovementType);
@@ -943,7 +954,7 @@ public class MapleStatEffect implements Serializable {
             tosummon.addHP(x);
             if (isBeholder()) {
                 tosummon.addHP(1);
-            } else if(sourceid == Mechanic.HEALING_ROBOT){
+            } else if (sourceid == Mechanic.HEALING_ROBOT) {
                 applyfrom.startRobotHealingSchedule(sourceid);
             }
         }
@@ -1047,17 +1058,19 @@ public class MapleStatEffect implements Serializable {
     }
 
     public final void applyComboBuff(final MapleCharacter applyto, int combo) {
-	final List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.ARAN_COMBO, combo));
-	applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(sourceid, 99999, stat, false, sourceid));
+        final List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.ARAN_COMBO, combo));
+        applyto.getClient().getSession().write(MaplePacketCreator.giveBuff(sourceid, 99999, stat, false, sourceid));
 
-	final long starttime = System.currentTimeMillis();
+        final long starttime = System.currentTimeMillis();
 //	final CancelEffectAction cancelAction = new CancelEffectAction(applyto, this, starttime);
 //	final ScheduledFuture<?> schedule = TimerManager.getInstance().schedule(cancelAction, ((starttime + 99999) - System.currentTimeMillis()));
-	applyto.registerEffect(this, starttime, null);
+        applyto.registerEffect(this, starttime, null);
     }
 
     private void applyBuffEffect(MapleCharacter applyfrom, MapleCharacter applyto, boolean primary) {
-        if (!isMonsterRiding()) applyto.cancelEffect(this, true, -1);
+        if (!isMonsterRiding()) {
+            applyto.cancelEffect(this, true, -1);
+        }
 
         List<Pair<MapleBuffStat, Integer>> localstatups = statups;
         int localDuration = duration;
@@ -1072,92 +1085,91 @@ public class MapleStatEffect implements Serializable {
             }
             if (sourceid == Corsair.BATTLE_SHIP) {
                 ridingLevel = 1932000;
-            } else if (sourceid == Beginner.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT1) { 
-                ridingLevel = 1932003; 
-            } else if (sourceid == Beginner.YETI_MOUNT || sourceid == Noblesse.YETI_MOUNT || sourceid == Legend.YETI_MOUNT || sourceid == Citizen.YETI_MOUNT) { 
-                ridingLevel = 1932004; 
-            } else if (sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Legend.WITCH_BROOMSTICK || sourceid == Citizen.WITCH_BROOMSTICK) { 
-                ridingLevel = 1932005; 
-            } else if (sourceid == Beginner.BALROG_MOUNT || sourceid == Noblesse.BALROG_MOUNT || sourceid == Legend.BALROG_MOUNT || sourceid == Citizen.BALROG_MOUNT) { 
-                ridingLevel = 1932010; 
-                            } else if (sourceid == Beginner.CHICKEN || sourceid == Noblesse.CHICKEN || sourceid == Legend.CHICKEN || sourceid == Citizen.CHICKEN) { 
-                ridingLevel = 1932029; 
-                            } else if (sourceid == Beginner.OSTRICH || sourceid == Noblesse.OSTRICH || sourceid == Legend.OSTRICH || sourceid == Citizen.OSTRICH) { 
-                ridingLevel = 1932026; 
-                            } else if (sourceid == Beginner.CROCO || sourceid == Noblesse.CROCO || sourceid == Legend.CROCO || sourceid == Citizen.CROCO) { 
-                ridingLevel = 1932007; 
-                            } else if (sourceid == Beginner.OS4_SHUTTLE || sourceid == Noblesse.OS4_SHUTTLE || sourceid == Legend.OS4_SHUTTLE || sourceid == Citizen.OS4_SHUTTLE) { 
-                ridingLevel = 1932037; 
-                            } else if (sourceid == Beginner.OWL || sourceid == Noblesse.OWL || sourceid == Legend.OWL || sourceid == Citizen.OWL) { 
-                ridingLevel = 1932038; 
-                            } else if (sourceid == Beginner.MOTHERSHIP || sourceid == Noblesse.MOTHERSHIP || sourceid == Legend.MOTHERSHIP || sourceid == Citizen.MOTHERSHIP) { 
-                ridingLevel = 1932039; 
-                            } else if (sourceid == Beginner.OS3A_MACHINE || sourceid == Noblesse.OS3A_MACHINE || sourceid == Legend.OS3A_MACHINE || sourceid == Citizen.OS3A_MACHINE) { 
-                ridingLevel = 1932040; 
-                            } else if (sourceid == Beginner.SMALL_RABBIT || sourceid == Noblesse.SMALL_RABBIT || sourceid == Legend.SMALL_RABBIT || sourceid == Citizen.SMALL_RABBIT) { 
-                ridingLevel = 1932046; 
-                            } else if (sourceid == Beginner.ROGUE_RABBIT || sourceid == Noblesse.ROGUE_RABBIT || sourceid == Legend.ROGUE_RABBIT || sourceid == Citizen.ROGUE_RABBIT) { 
-                ridingLevel = 1932045; 
-                            } else if (sourceid == Beginner.LEONARDO_THE_LION || sourceid == Noblesse.LEONARDO_THE_LION || sourceid == Legend.LEONARDO_THE_LION || sourceid == Citizen.LEONARDO_THE_LION) { 
-                ridingLevel = 1932041; 
-                } else if (sourceid == Beginner.RACE_KART || sourceid == Noblesse.RACE_KART || sourceid == Legend.RACE_KART || sourceid == Citizen.RACE_KART) { 
-                ridingLevel =1932013; 
-                } else if (sourceid == Beginner.ZD_TIGER || sourceid == Noblesse.ZD_TIGER || sourceid == Legend.ZD_TIGER || sourceid == Citizen.ZD_TIGER) { 
-                ridingLevel = 1932014; 
-                } else if (sourceid == Beginner.MIST_BALROG || sourceid == Noblesse.MIST_BALROG || sourceid == Legend.MIST_BALROG || sourceid == Citizen.MIST_BALROG) { 
-                ridingLevel = 1932012; 
-                } else if (sourceid == Beginner.SHINJO || sourceid == Noblesse.SHINJO || sourceid == Legend.SHINJO || sourceid == Citizen.SHINJO) { 
-                ridingLevel = 1932022; 
-                } else if (sourceid == Beginner.ORANGE_MUSHROOM || sourceid == Noblesse.ORANGE_MUSHROOM || sourceid == Legend.ORANGE_MUSHROOM || sourceid == Citizen.ORANGE_MUSHROOM) { 
-                ridingLevel = 1932023; 
-                } else if (sourceid == Beginner.NIGHTMARE || sourceid == Noblesse.NIGHTMARE || sourceid == Legend.NIGHTMARE || sourceid == Citizen.NIGHTMARE) { 
-                ridingLevel = 1932025; 
-                } else if (sourceid == Beginner.YETI || sourceid == Noblesse.YETI || sourceid == Legend.YETI || sourceid == Citizen.YETI) { 
-                ridingLevel =1932004; 
-                } else if (sourceid == Beginner.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Noblesse.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Legend.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Citizen.PINK_BEAR_HOT_AIR_BALLOON) { 
-                ridingLevel = 1932027; 
-                } else if (sourceid == Beginner.TRANSFORMATION_ROBOT || sourceid == Noblesse.TRANSFORMATION_ROBOT || sourceid == Legend.TRANSFORMATION_ROBOT || sourceid == Citizen.TRANSFORMATION_ROBOT) { 
-                ridingLevel = 1932028; 
-                } else if (sourceid == Beginner.MOTORCYCLE || sourceid == Noblesse.MOTORCYCLE || sourceid == Legend.MOTORCYCLE || sourceid == Citizen.MOTORCYCLE) { 
-                ridingLevel = 1932034; 
-                } else if (sourceid == Beginner.POWER_SUIT || sourceid == Noblesse.POWER_SUIT || sourceid == Legend.POWER_SUIT || sourceid == Citizen.POWER_SUIT) { 
-                ridingLevel = 1932035; 
-                } else if (sourceid == Beginner.NIMBUS_CLOUD || sourceid == Noblesse.NIMBUS_CLOUD || sourceid == Legend.NIMBUS_CLOUD || sourceid == Citizen.NIMBUS_CLOUD) { 
-                ridingLevel = 1932011; 
-                } else if (sourceid == Beginner.CHARGE_WOODEN_PONY || sourceid == Noblesse.CHARGE_WOODEN_PONY || sourceid == Legend.CHARGE_WOODEN_PONY || sourceid == Citizen.CHARGE_WOODEN_PONY) { 
-                ridingLevel = 1932006; 
-                } else if (sourceid == Beginner.BLACK_SCOOTER || sourceid == Noblesse.BLACK_SCOOTER || sourceid == Legend.BLACK_SCOOTER || sourceid == Citizen.BLACK_SCOOTER) { 
-                ridingLevel = 1932008; 
-                } else if (sourceid == Beginner.PINK_SCOOTER || sourceid == Noblesse.PINK_SCOOTER || sourceid == Legend.PINK_SCOOTER || sourceid == Citizen.PINK_SCOOTER) { 
-                ridingLevel = 1932009; 
-                } else if (sourceid == Beginner.GARGOYLE || sourceid == Noblesse.GARGOYLE || sourceid == Legend.GARGOYLE || sourceid == Citizen.GARGOYLE) { 
-                ridingLevel = 1932021; 
-                } else if (sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP || sourceid == Legend.SPACESHIP || sourceid == Citizen.SPACESHIP) { 
-                ridingLevel = 1932002; 
-                } else if (sourceid == Beginner.UNICORN || sourceid == Noblesse.UNICORN || sourceid == Legend.UNICORN || sourceid == Citizen.UNICORN) { 
-                ridingLevel = 1932018; 
-                } else if (sourceid == Beginner.RED_TRUCK || sourceid == Noblesse.RED_TRUCK || sourceid == Legend.RED_TRUCK || sourceid == Citizen.RED_TRUCK) { 
-                ridingLevel = 1932020; 
-                } else if (sourceid == Beginner.LOW_RIDER || sourceid == Noblesse.LOW_RIDER || sourceid == Legend.LOW_RIDER || sourceid == Citizen.LOW_RIDER) { 
-                ridingLevel = 1932019; 
-                } else if (sourceid == Beginner.LION || sourceid == Noblesse.LION || sourceid == Legend.LION || sourceid == Citizen.LION) { 
-                ridingLevel = 1932041;  
+            } else if (sourceid == Beginner.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT1) {
+                ridingLevel = 1932003;
+            } else if (sourceid == Beginner.YETI_MOUNT || sourceid == Noblesse.YETI_MOUNT || sourceid == Legend.YETI_MOUNT || sourceid == Citizen.YETI_MOUNT) {
+                ridingLevel = 1932004;
+            } else if (sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Legend.WITCH_BROOMSTICK || sourceid == Citizen.WITCH_BROOMSTICK) {
+                ridingLevel = 1932005;
+            } else if (sourceid == Beginner.BALROG_MOUNT || sourceid == Noblesse.BALROG_MOUNT || sourceid == Legend.BALROG_MOUNT || sourceid == Citizen.BALROG_MOUNT) {
+                ridingLevel = 1932010;
+            } else if (sourceid == Beginner.CHICKEN || sourceid == Noblesse.CHICKEN || sourceid == Legend.CHICKEN || sourceid == Citizen.CHICKEN) {
+                ridingLevel = 1932029;
+            } else if (sourceid == Beginner.OSTRICH || sourceid == Noblesse.OSTRICH || sourceid == Legend.OSTRICH || sourceid == Citizen.OSTRICH) {
+                ridingLevel = 1932026;
+            } else if (sourceid == Beginner.CROCO || sourceid == Noblesse.CROCO || sourceid == Legend.CROCO || sourceid == Citizen.CROCO) {
+                ridingLevel = 1932007;
+            } else if (sourceid == Beginner.OS4_SHUTTLE || sourceid == Noblesse.OS4_SHUTTLE || sourceid == Legend.OS4_SHUTTLE || sourceid == Citizen.OS4_SHUTTLE) {
+                ridingLevel = 1932037;
+            } else if (sourceid == Beginner.OWL || sourceid == Noblesse.OWL || sourceid == Legend.OWL || sourceid == Citizen.OWL) {
+                ridingLevel = 1932038;
+            } else if (sourceid == Beginner.MOTHERSHIP || sourceid == Noblesse.MOTHERSHIP || sourceid == Legend.MOTHERSHIP || sourceid == Citizen.MOTHERSHIP) {
+                ridingLevel = 1932039;
+            } else if (sourceid == Beginner.OS3A_MACHINE || sourceid == Noblesse.OS3A_MACHINE || sourceid == Legend.OS3A_MACHINE || sourceid == Citizen.OS3A_MACHINE) {
+                ridingLevel = 1932040;
+            } else if (sourceid == Beginner.SMALL_RABBIT || sourceid == Noblesse.SMALL_RABBIT || sourceid == Legend.SMALL_RABBIT || sourceid == Citizen.SMALL_RABBIT) {
+                ridingLevel = 1932046;
+            } else if (sourceid == Beginner.ROGUE_RABBIT || sourceid == Noblesse.ROGUE_RABBIT || sourceid == Legend.ROGUE_RABBIT || sourceid == Citizen.ROGUE_RABBIT) {
+                ridingLevel = 1932045;
+            } else if (sourceid == Beginner.LEONARDO_THE_LION || sourceid == Noblesse.LEONARDO_THE_LION || sourceid == Legend.LEONARDO_THE_LION || sourceid == Citizen.LEONARDO_THE_LION) {
+                ridingLevel = 1932041;
+            } else if (sourceid == Beginner.RACE_KART || sourceid == Noblesse.RACE_KART || sourceid == Legend.RACE_KART || sourceid == Citizen.RACE_KART) {
+                ridingLevel = 1932013;
+            } else if (sourceid == Beginner.ZD_TIGER || sourceid == Noblesse.ZD_TIGER || sourceid == Legend.ZD_TIGER || sourceid == Citizen.ZD_TIGER) {
+                ridingLevel = 1932014;
+            } else if (sourceid == Beginner.MIST_BALROG || sourceid == Noblesse.MIST_BALROG || sourceid == Legend.MIST_BALROG || sourceid == Citizen.MIST_BALROG) {
+                ridingLevel = 1932012;
+            } else if (sourceid == Beginner.SHINJO || sourceid == Noblesse.SHINJO || sourceid == Legend.SHINJO || sourceid == Citizen.SHINJO) {
+                ridingLevel = 1932022;
+            } else if (sourceid == Beginner.ORANGE_MUSHROOM || sourceid == Noblesse.ORANGE_MUSHROOM || sourceid == Legend.ORANGE_MUSHROOM || sourceid == Citizen.ORANGE_MUSHROOM) {
+                ridingLevel = 1932023;
+            } else if (sourceid == Beginner.NIGHTMARE || sourceid == Noblesse.NIGHTMARE || sourceid == Legend.NIGHTMARE || sourceid == Citizen.NIGHTMARE) {
+                ridingLevel = 1932025;
+            } else if (sourceid == Beginner.YETI || sourceid == Noblesse.YETI || sourceid == Legend.YETI || sourceid == Citizen.YETI) {
+                ridingLevel = 1932004;
+            } else if (sourceid == Beginner.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Noblesse.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Legend.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Citizen.PINK_BEAR_HOT_AIR_BALLOON) {
+                ridingLevel = 1932027;
+            } else if (sourceid == Beginner.TRANSFORMATION_ROBOT || sourceid == Noblesse.TRANSFORMATION_ROBOT || sourceid == Legend.TRANSFORMATION_ROBOT || sourceid == Citizen.TRANSFORMATION_ROBOT) {
+                ridingLevel = 1932028;
+            } else if (sourceid == Beginner.MOTORCYCLE || sourceid == Noblesse.MOTORCYCLE || sourceid == Legend.MOTORCYCLE || sourceid == Citizen.MOTORCYCLE) {
+                ridingLevel = 1932034;
+            } else if (sourceid == Beginner.POWER_SUIT || sourceid == Noblesse.POWER_SUIT || sourceid == Legend.POWER_SUIT || sourceid == Citizen.POWER_SUIT) {
+                ridingLevel = 1932035;
+            } else if (sourceid == Beginner.NIMBUS_CLOUD || sourceid == Noblesse.NIMBUS_CLOUD || sourceid == Legend.NIMBUS_CLOUD || sourceid == Citizen.NIMBUS_CLOUD) {
+                ridingLevel = 1932011;
+            } else if (sourceid == Beginner.CHARGE_WOODEN_PONY || sourceid == Noblesse.CHARGE_WOODEN_PONY || sourceid == Legend.CHARGE_WOODEN_PONY || sourceid == Citizen.CHARGE_WOODEN_PONY) {
+                ridingLevel = 1932006;
+            } else if (sourceid == Beginner.BLACK_SCOOTER || sourceid == Noblesse.BLACK_SCOOTER || sourceid == Legend.BLACK_SCOOTER || sourceid == Citizen.BLACK_SCOOTER) {
+                ridingLevel = 1932008;
+            } else if (sourceid == Beginner.PINK_SCOOTER || sourceid == Noblesse.PINK_SCOOTER || sourceid == Legend.PINK_SCOOTER || sourceid == Citizen.PINK_SCOOTER) {
+                ridingLevel = 1932009;
+            } else if (sourceid == Beginner.GARGOYLE || sourceid == Noblesse.GARGOYLE || sourceid == Legend.GARGOYLE || sourceid == Citizen.GARGOYLE) {
+                ridingLevel = 1932021;
+            } else if (sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP || sourceid == Legend.SPACESHIP || sourceid == Citizen.SPACESHIP) {
+                ridingLevel = 1932002;
+            } else if (sourceid == Beginner.UNICORN || sourceid == Noblesse.UNICORN || sourceid == Legend.UNICORN || sourceid == Citizen.UNICORN) {
+                ridingLevel = 1932018;
+            } else if (sourceid == Beginner.RED_TRUCK || sourceid == Noblesse.RED_TRUCK || sourceid == Legend.RED_TRUCK || sourceid == Citizen.RED_TRUCK) {
+                ridingLevel = 1932020;
+            } else if (sourceid == Beginner.LOW_RIDER || sourceid == Noblesse.LOW_RIDER || sourceid == Legend.LOW_RIDER || sourceid == Citizen.LOW_RIDER) {
+                ridingLevel = 1932019;
+            } else if (sourceid == Beginner.LION || sourceid == Noblesse.LION || sourceid == Legend.LION || sourceid == Citizen.LION) {
+                ridingLevel = 1932041;
             } else if (sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP) {
                 ridingLevel = 1932000 + applyto.getSkillLevel(sourceid);
             } else if (sourceid == Beginner.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT1) {
                 ridingLevel = 1932003;
-            //} else if (sourceid == Beginner.YETI_MOUNT2 || sourceid == Noblesse.YETI_MOUNT2 || sourceid == Legend.YETI_MOUNT2) {
-               // ridingLevel = 1932004;
+                //} else if (sourceid == Beginner.YETI_MOUNT2 || sourceid == Noblesse.YETI_MOUNT2 || sourceid == Legend.YETI_MOUNT2) {
+                // ridingLevel = 1932004;
             } else if (sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Legend.WITCH_BROOMSTICK) {
                 ridingLevel = 1932005;
             } else if (sourceid == Beginner.BALROG_MOUNT || sourceid == Noblesse.BALROG_MOUNT || sourceid == Legend.BALROG_MOUNT) {
                 ridingLevel = 1932010;
-            } else if(sourceid == WildHunter.JAGUAR_RIDER){
+            } else if (sourceid == WildHunter.JAGUAR_RIDER) {
                 ridingLevel = 1932032;
-            } else if(sourceid == Mechanic.PROTOTYPE || sourceid == Mechanic.SIEGE_MODE || sourceid == Mechanic.SIEGE_MODE2 || sourceid == Mechanic.EXTREME_MECH){
+            } else if (sourceid == Mechanic.PROTOTYPE || sourceid == Mechanic.SIEGE_MODE || sourceid == Mechanic.SIEGE_MODE2 || sourceid == Mechanic.EXTREME_MECH) {
                 ridingLevel = 1932016;
-            }
-            else {
+            } else {
                 if (applyto.getMount() == null) {
                     applyto.mount(ridingLevel, sourceid);
                 }
@@ -1165,92 +1177,91 @@ public class MapleStatEffect implements Serializable {
             }
             if (sourceid == Corsair.BATTLE_SHIP) {
                 givemount = new MapleMount(applyto, 1932000, sourceid);
-             } else if (sourceid == Beginner.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT1) { 
-                givemount = new MapleMount(applyto, 1932003, sourceid); 
-            } else if (sourceid == Beginner.YETI_MOUNT || sourceid == Noblesse.YETI_MOUNT || sourceid == Legend.YETI_MOUNT || sourceid == Citizen.YETI_MOUNT) { 
-                givemount = new MapleMount(applyto, 1932004, sourceid); 
-            } else if (sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Legend.WITCH_BROOMSTICK || sourceid == Citizen.WITCH_BROOMSTICK) { 
-                givemount = new MapleMount(applyto, 1932005, sourceid); 
-            } else if (sourceid == Beginner.BALROG_MOUNT || sourceid == Noblesse.BALROG_MOUNT || sourceid == Legend.BALROG_MOUNT || sourceid == Citizen.BALROG_MOUNT) { 
-                givemount = new MapleMount(applyto, 1932010, sourceid); 
-                 } else if (sourceid == Beginner.CHICKEN || sourceid == Noblesse.CHICKEN || sourceid == Legend.CHICKEN || sourceid == Citizen.CHICKEN) { 
-                givemount = new MapleMount(applyto,1932029, sourceid); 
-           } else if (sourceid == Beginner.OSTRICH || sourceid == Noblesse.OSTRICH || sourceid == Legend.OSTRICH || sourceid == Citizen.OSTRICH) { 
-                givemount = new MapleMount(applyto, 1932026, sourceid); 
-                       } else if (sourceid == Beginner.CROCO || sourceid == Noblesse.CROCO || sourceid == Legend.CROCO || sourceid == Citizen.CROCO) { 
-                           givemount = new MapleMount(applyto, 1932007, sourceid); 
-              } else if (sourceid == Beginner.OWL || sourceid == Noblesse.OWL || sourceid == Legend.OWL || sourceid == Citizen.OWL) { 
-                givemount = new MapleMount(applyto, 1932038, sourceid); 
-                } else if (sourceid == Beginner.MOTHERSHIP || sourceid == Noblesse.MOTHERSHIP || sourceid == Legend.MOTHERSHIP || sourceid == Citizen.MOTHERSHIP) { 
-                givemount = new MapleMount(applyto, 1932039, sourceid); 
-                } else if (sourceid == Beginner.OS4_SHUTTLE || sourceid == Noblesse.OS4_SHUTTLE || sourceid == Legend.OS4_SHUTTLE || sourceid == Citizen.OS4_SHUTTLE) { 
-                givemount = new MapleMount(applyto, 1932037, sourceid); 
-                } else if (sourceid == Beginner.OS3A_MACHINE || sourceid == Noblesse.OS3A_MACHINE || sourceid == Legend.OS3A_MACHINE || sourceid == Citizen.OS3A_MACHINE) { 
-                givemount = new MapleMount(applyto, 1932040, sourceid); 
-                } else if (sourceid == Beginner.SMALL_RABBIT || sourceid == Noblesse.SMALL_RABBIT || sourceid == Legend.SMALL_RABBIT || sourceid == Citizen.SMALL_RABBIT) { 
-                givemount = new MapleMount(applyto, 1932046, sourceid); 
-                } else if (sourceid == Beginner.ROGUE_RABBIT || sourceid == Noblesse.ROGUE_RABBIT || sourceid == Legend.ROGUE_RABBIT || sourceid == Citizen.ROGUE_RABBIT) { 
-                givemount = new MapleMount(applyto, 1932045, sourceid); 
-                } else if (sourceid == Beginner.LEONARDO_THE_LION || sourceid == Noblesse.LEONARDO_THE_LION || sourceid == Legend.LEONARDO_THE_LION || sourceid == Citizen.LEONARDO_THE_LION) { 
-                givemount = new MapleMount(applyto, 1932041, sourceid); 
-                } else if (sourceid == Beginner.RACE_KART || sourceid == Noblesse.RACE_KART || sourceid == Legend.RACE_KART || sourceid == Citizen.RACE_KART) { 
-                givemount = new MapleMount(applyto, 1932013, sourceid); 
-                } else if (sourceid == Beginner.ZD_TIGER || sourceid == Noblesse.ZD_TIGER || sourceid == Legend.ZD_TIGER || sourceid == Citizen.ZD_TIGER) { 
-                givemount = new MapleMount(applyto, 1932014, sourceid); 
-                } else if (sourceid == Beginner.MIST_BALROG || sourceid == Noblesse.MIST_BALROG || sourceid == Legend.MIST_BALROG || sourceid == Citizen.MIST_BALROG) { 
-                givemount = new MapleMount(applyto, 1932012, sourceid); 
-                } else if (sourceid == Beginner.SHINJO || sourceid == Noblesse.SHINJO || sourceid == Legend.SHINJO || sourceid == Citizen.SHINJO) { 
-                givemount = new MapleMount(applyto, 1932022, sourceid); 
-                } else if (sourceid == Beginner.ORANGE_MUSHROOM || sourceid == Noblesse.ORANGE_MUSHROOM || sourceid == Legend.ORANGE_MUSHROOM || sourceid == Citizen.ORANGE_MUSHROOM) { 
-                givemount = new MapleMount(applyto, 1932023, sourceid); 
-                } else if (sourceid == Beginner.NIGHTMARE || sourceid == Noblesse.NIGHTMARE || sourceid == Legend.NIGHTMARE || sourceid == Citizen.NIGHTMARE) { 
-                givemount = new MapleMount(applyto, 1932025, sourceid); 
-                } else if (sourceid == Beginner.YETI || sourceid == Noblesse.YETI || sourceid == Legend.YETI || sourceid == Citizen.YETI) { 
-                givemount = new MapleMount(applyto, 1932004, sourceid); 
-                } else if (sourceid == Beginner.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Noblesse.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Legend.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Citizen.PINK_BEAR_HOT_AIR_BALLOON) { 
-                givemount = new MapleMount(applyto, 1932027, sourceid); 
-                } else if (sourceid == Beginner.TRANSFORMATION_ROBOT || sourceid == Noblesse.TRANSFORMATION_ROBOT || sourceid == Legend.TRANSFORMATION_ROBOT || sourceid == Citizen.TRANSFORMATION_ROBOT) { 
-                givemount = new MapleMount(applyto, 1932028, sourceid); 
-                } else if (sourceid == Beginner.MOTORCYCLE || sourceid == Noblesse.MOTORCYCLE || sourceid == Legend.MOTORCYCLE || sourceid == Citizen.MOTORCYCLE) { 
-                givemount = new MapleMount(applyto, 1932034, sourceid); 
-                } else if (sourceid == Beginner.POWER_SUIT || sourceid == Noblesse.POWER_SUIT || sourceid == Legend.POWER_SUIT || sourceid == Citizen.POWER_SUIT) { 
-                givemount = new MapleMount(applyto, 1932035, sourceid); 
-                } else if (sourceid == Beginner.NIMBUS_CLOUD || sourceid == Noblesse.NIMBUS_CLOUD || sourceid == Legend.NIMBUS_CLOUD || sourceid == Citizen.NIMBUS_CLOUD) { 
-                givemount = new MapleMount(applyto, 1932011, sourceid); 
-                } else if (sourceid == Beginner.CHARGE_WOODEN_PONY || sourceid == Noblesse.CHARGE_WOODEN_PONY || sourceid == Legend.CHARGE_WOODEN_PONY || sourceid == Citizen.CHARGE_WOODEN_PONY) { 
-                givemount = new MapleMount(applyto, 1932006, sourceid); 
-                } else if (sourceid == Beginner.BLACK_SCOOTER || sourceid == Noblesse.BLACK_SCOOTER || sourceid == Legend.BLACK_SCOOTER || sourceid == Citizen.BLACK_SCOOTER) { 
-                givemount = new MapleMount(applyto, 1932008, sourceid); 
-                } else if (sourceid == Beginner.PINK_SCOOTER || sourceid == Noblesse.PINK_SCOOTER || sourceid == Legend.PINK_SCOOTER || sourceid == Citizen.PINK_SCOOTER) { 
-                givemount = new MapleMount(applyto, 1932009, sourceid); 
-                } else if (sourceid == Beginner.GARGOYLE || sourceid == Noblesse.GARGOYLE || sourceid == Legend.GARGOYLE || sourceid == Citizen.GARGOYLE) { 
-                givemount = new MapleMount(applyto, 1932021, sourceid); 
-                } else if (sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP || sourceid == Legend.SPACESHIP || sourceid == Citizen.SPACESHIP) { 
-                givemount = new MapleMount(applyto, 1932002, sourceid); 
-                } else if (sourceid == Beginner.UNICORN || sourceid == Noblesse.UNICORN || sourceid == Legend.UNICORN || sourceid == Citizen.UNICORN) { 
-                givemount = new MapleMount(applyto, 1932018, sourceid); 
-                } else if (sourceid == Beginner.RED_TRUCK || sourceid == Noblesse.RED_TRUCK || sourceid == Legend.RED_TRUCK || sourceid == Citizen.RED_TRUCK) { 
-                givemount = new MapleMount(applyto, 1932020, sourceid); 
-                } else if (sourceid == Beginner.LOW_RIDER || sourceid == Noblesse.LOW_RIDER || sourceid == Legend.LOW_RIDER || sourceid == Citizen.LOW_RIDER) { 
-                givemount = new MapleMount(applyto, 1932019, sourceid); 
-                } else if (sourceid == Beginner.LION || sourceid == Noblesse.LION || sourceid == Legend.LION || sourceid == Citizen.LION) { 
-                givemount = new MapleMount(applyto, 1932041, sourceid); 
+            } else if (sourceid == Beginner.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT1) {
+                givemount = new MapleMount(applyto, 1932003, sourceid);
+            } else if (sourceid == Beginner.YETI_MOUNT || sourceid == Noblesse.YETI_MOUNT || sourceid == Legend.YETI_MOUNT || sourceid == Citizen.YETI_MOUNT) {
+                givemount = new MapleMount(applyto, 1932004, sourceid);
+            } else if (sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Legend.WITCH_BROOMSTICK || sourceid == Citizen.WITCH_BROOMSTICK) {
+                givemount = new MapleMount(applyto, 1932005, sourceid);
+            } else if (sourceid == Beginner.BALROG_MOUNT || sourceid == Noblesse.BALROG_MOUNT || sourceid == Legend.BALROG_MOUNT || sourceid == Citizen.BALROG_MOUNT) {
+                givemount = new MapleMount(applyto, 1932010, sourceid);
+            } else if (sourceid == Beginner.CHICKEN || sourceid == Noblesse.CHICKEN || sourceid == Legend.CHICKEN || sourceid == Citizen.CHICKEN) {
+                givemount = new MapleMount(applyto, 1932029, sourceid);
+            } else if (sourceid == Beginner.OSTRICH || sourceid == Noblesse.OSTRICH || sourceid == Legend.OSTRICH || sourceid == Citizen.OSTRICH) {
+                givemount = new MapleMount(applyto, 1932026, sourceid);
+            } else if (sourceid == Beginner.CROCO || sourceid == Noblesse.CROCO || sourceid == Legend.CROCO || sourceid == Citizen.CROCO) {
+                givemount = new MapleMount(applyto, 1932007, sourceid);
+            } else if (sourceid == Beginner.OWL || sourceid == Noblesse.OWL || sourceid == Legend.OWL || sourceid == Citizen.OWL) {
+                givemount = new MapleMount(applyto, 1932038, sourceid);
+            } else if (sourceid == Beginner.MOTHERSHIP || sourceid == Noblesse.MOTHERSHIP || sourceid == Legend.MOTHERSHIP || sourceid == Citizen.MOTHERSHIP) {
+                givemount = new MapleMount(applyto, 1932039, sourceid);
+            } else if (sourceid == Beginner.OS4_SHUTTLE || sourceid == Noblesse.OS4_SHUTTLE || sourceid == Legend.OS4_SHUTTLE || sourceid == Citizen.OS4_SHUTTLE) {
+                givemount = new MapleMount(applyto, 1932037, sourceid);
+            } else if (sourceid == Beginner.OS3A_MACHINE || sourceid == Noblesse.OS3A_MACHINE || sourceid == Legend.OS3A_MACHINE || sourceid == Citizen.OS3A_MACHINE) {
+                givemount = new MapleMount(applyto, 1932040, sourceid);
+            } else if (sourceid == Beginner.SMALL_RABBIT || sourceid == Noblesse.SMALL_RABBIT || sourceid == Legend.SMALL_RABBIT || sourceid == Citizen.SMALL_RABBIT) {
+                givemount = new MapleMount(applyto, 1932046, sourceid);
+            } else if (sourceid == Beginner.ROGUE_RABBIT || sourceid == Noblesse.ROGUE_RABBIT || sourceid == Legend.ROGUE_RABBIT || sourceid == Citizen.ROGUE_RABBIT) {
+                givemount = new MapleMount(applyto, 1932045, sourceid);
+            } else if (sourceid == Beginner.LEONARDO_THE_LION || sourceid == Noblesse.LEONARDO_THE_LION || sourceid == Legend.LEONARDO_THE_LION || sourceid == Citizen.LEONARDO_THE_LION) {
+                givemount = new MapleMount(applyto, 1932041, sourceid);
+            } else if (sourceid == Beginner.RACE_KART || sourceid == Noblesse.RACE_KART || sourceid == Legend.RACE_KART || sourceid == Citizen.RACE_KART) {
+                givemount = new MapleMount(applyto, 1932013, sourceid);
+            } else if (sourceid == Beginner.ZD_TIGER || sourceid == Noblesse.ZD_TIGER || sourceid == Legend.ZD_TIGER || sourceid == Citizen.ZD_TIGER) {
+                givemount = new MapleMount(applyto, 1932014, sourceid);
+            } else if (sourceid == Beginner.MIST_BALROG || sourceid == Noblesse.MIST_BALROG || sourceid == Legend.MIST_BALROG || sourceid == Citizen.MIST_BALROG) {
+                givemount = new MapleMount(applyto, 1932012, sourceid);
+            } else if (sourceid == Beginner.SHINJO || sourceid == Noblesse.SHINJO || sourceid == Legend.SHINJO || sourceid == Citizen.SHINJO) {
+                givemount = new MapleMount(applyto, 1932022, sourceid);
+            } else if (sourceid == Beginner.ORANGE_MUSHROOM || sourceid == Noblesse.ORANGE_MUSHROOM || sourceid == Legend.ORANGE_MUSHROOM || sourceid == Citizen.ORANGE_MUSHROOM) {
+                givemount = new MapleMount(applyto, 1932023, sourceid);
+            } else if (sourceid == Beginner.NIGHTMARE || sourceid == Noblesse.NIGHTMARE || sourceid == Legend.NIGHTMARE || sourceid == Citizen.NIGHTMARE) {
+                givemount = new MapleMount(applyto, 1932025, sourceid);
+            } else if (sourceid == Beginner.YETI || sourceid == Noblesse.YETI || sourceid == Legend.YETI || sourceid == Citizen.YETI) {
+                givemount = new MapleMount(applyto, 1932004, sourceid);
+            } else if (sourceid == Beginner.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Noblesse.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Legend.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Citizen.PINK_BEAR_HOT_AIR_BALLOON) {
+                givemount = new MapleMount(applyto, 1932027, sourceid);
+            } else if (sourceid == Beginner.TRANSFORMATION_ROBOT || sourceid == Noblesse.TRANSFORMATION_ROBOT || sourceid == Legend.TRANSFORMATION_ROBOT || sourceid == Citizen.TRANSFORMATION_ROBOT) {
+                givemount = new MapleMount(applyto, 1932028, sourceid);
+            } else if (sourceid == Beginner.MOTORCYCLE || sourceid == Noblesse.MOTORCYCLE || sourceid == Legend.MOTORCYCLE || sourceid == Citizen.MOTORCYCLE) {
+                givemount = new MapleMount(applyto, 1932034, sourceid);
+            } else if (sourceid == Beginner.POWER_SUIT || sourceid == Noblesse.POWER_SUIT || sourceid == Legend.POWER_SUIT || sourceid == Citizen.POWER_SUIT) {
+                givemount = new MapleMount(applyto, 1932035, sourceid);
+            } else if (sourceid == Beginner.NIMBUS_CLOUD || sourceid == Noblesse.NIMBUS_CLOUD || sourceid == Legend.NIMBUS_CLOUD || sourceid == Citizen.NIMBUS_CLOUD) {
+                givemount = new MapleMount(applyto, 1932011, sourceid);
+            } else if (sourceid == Beginner.CHARGE_WOODEN_PONY || sourceid == Noblesse.CHARGE_WOODEN_PONY || sourceid == Legend.CHARGE_WOODEN_PONY || sourceid == Citizen.CHARGE_WOODEN_PONY) {
+                givemount = new MapleMount(applyto, 1932006, sourceid);
+            } else if (sourceid == Beginner.BLACK_SCOOTER || sourceid == Noblesse.BLACK_SCOOTER || sourceid == Legend.BLACK_SCOOTER || sourceid == Citizen.BLACK_SCOOTER) {
+                givemount = new MapleMount(applyto, 1932008, sourceid);
+            } else if (sourceid == Beginner.PINK_SCOOTER || sourceid == Noblesse.PINK_SCOOTER || sourceid == Legend.PINK_SCOOTER || sourceid == Citizen.PINK_SCOOTER) {
+                givemount = new MapleMount(applyto, 1932009, sourceid);
+            } else if (sourceid == Beginner.GARGOYLE || sourceid == Noblesse.GARGOYLE || sourceid == Legend.GARGOYLE || sourceid == Citizen.GARGOYLE) {
+                givemount = new MapleMount(applyto, 1932021, sourceid);
+            } else if (sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP || sourceid == Legend.SPACESHIP || sourceid == Citizen.SPACESHIP) {
+                givemount = new MapleMount(applyto, 1932002, sourceid);
+            } else if (sourceid == Beginner.UNICORN || sourceid == Noblesse.UNICORN || sourceid == Legend.UNICORN || sourceid == Citizen.UNICORN) {
+                givemount = new MapleMount(applyto, 1932018, sourceid);
+            } else if (sourceid == Beginner.RED_TRUCK || sourceid == Noblesse.RED_TRUCK || sourceid == Legend.RED_TRUCK || sourceid == Citizen.RED_TRUCK) {
+                givemount = new MapleMount(applyto, 1932020, sourceid);
+            } else if (sourceid == Beginner.LOW_RIDER || sourceid == Noblesse.LOW_RIDER || sourceid == Legend.LOW_RIDER || sourceid == Citizen.LOW_RIDER) {
+                givemount = new MapleMount(applyto, 1932019, sourceid);
+            } else if (sourceid == Beginner.LION || sourceid == Noblesse.LION || sourceid == Legend.LION || sourceid == Citizen.LION) {
+                givemount = new MapleMount(applyto, 1932041, sourceid);
             } else if (sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP) {
                 givemount = new MapleMount(applyto, 1932000 + applyto.getSkillLevel(sourceid), sourceid);
             } else if (sourceid == Beginner.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT1) {
                 givemount = new MapleMount(applyto, 1932003, sourceid);
-           // } else if (sourceid == Beginner.YETI_MOUNT2 || sourceid == Noblesse.YETI_MOUNT2 || sourceid == Legend.YETI_MOUNT2) {
-            //    givemount = new MapleMount(applyto, 1932004, sourceid);
+                // } else if (sourceid == Beginner.YETI_MOUNT2 || sourceid == Noblesse.YETI_MOUNT2 || sourceid == Legend.YETI_MOUNT2) {
+                //    givemount = new MapleMount(applyto, 1932004, sourceid);
             } else if (sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Legend.WITCH_BROOMSTICK) {
                 givemount = new MapleMount(applyto, 1932005, sourceid);
             } else if (sourceid == Beginner.BALROG_MOUNT || sourceid == Noblesse.BALROG_MOUNT || sourceid == Legend.BALROG_MOUNT) {
                 givemount = new MapleMount(applyto, 1932010, sourceid);
-            } else if(sourceid == WildHunter.JAGUAR_RIDER){
+            } else if (sourceid == WildHunter.JAGUAR_RIDER) {
                 givemount = new MapleMount(applyto, 1932015, sourceid);
-            } else if(sourceid == Mechanic.PROTOTYPE || sourceid == Mechanic.SIEGE_MODE || sourceid == Mechanic.SIEGE_MODE2 || sourceid == Mechanic.EXTREME_MECH){
+            } else if (sourceid == Mechanic.PROTOTYPE || sourceid == Mechanic.SIEGE_MODE || sourceid == Mechanic.SIEGE_MODE2 || sourceid == Mechanic.EXTREME_MECH) {
                 givemount = new MapleMount(applyto, 1932016, sourceid);
-            }
-            else {
+            } else {
                 givemount = applyto.getMount();
             }
             localDuration = sourceid;
@@ -1270,7 +1281,7 @@ public class MapleStatEffect implements Serializable {
             buff = MaplePacketCreator.giveBuff((skill ? sourceid : -sourceid), localDuration, localstatups, false, sourceid);
             if (isDash()) {
                 buff = MaplePacketCreator.givePirateBuff(statups, sourceid, seconds);
-               // mbuff = MaplePacketCreator.giveForeignDash(applyto.getId(), sourceid, seconds, localstatups);
+                // mbuff = MaplePacketCreator.giveForeignDash(applyto.getId(), sourceid, seconds, localstatups);
             } else if (isInfusion()) {
                 buff = MaplePacketCreator.givePirateBuff(statups, sourceid, seconds);
                 mbuff = MaplePacketCreator.giveForeignInfusion(applyto.getId(), x, localDuration);
@@ -1286,11 +1297,10 @@ public class MapleStatEffect implements Serializable {
             } else if (isShadowPartner()) {
                 List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.SHADOWPARTNER, 0));
                 mbuff = MaplePacketCreator.enableActions();
-            } else if(sourceid == BladeLord.MIRROR_IMAGE){
-            List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.MIRROR_IMAGE, 0));
-            mbuff = MaplePacketCreator.giveForeignBuff(applyto.getId(), statups);
-            }
-            else if (isSoulArrow()) {
+            } else if (sourceid == BladeLord.MIRROR_IMAGE) {
+                List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.MIRROR_IMAGE, 0));
+                mbuff = MaplePacketCreator.giveForeignBuff(applyto.getId(), statups);
+            } else if (isSoulArrow()) {
                 List<Pair<MapleBuffStat, Integer>> stat = Collections.singletonList(new Pair<MapleBuffStat, Integer>(MapleBuffStat.SOULARROW, 0));
                 mbuff = MaplePacketCreator.enableActions();
             } else if (isEnrage()) {
@@ -1309,18 +1319,20 @@ public class MapleStatEffect implements Serializable {
             CancelEffectAction cancelAction = new CancelEffectAction(applyto, this, starttime);
             ScheduledFuture<?> schedule = TimerManager.getInstance().schedule(cancelAction, localDuration);
             applyto.registerEffect(this, starttime, schedule);
-            if (buff != null)
+            if (buff != null) {
                 applyto.getClient().getSession().write(buff);
-            if (mbuff != null)
+            }
+            if (mbuff != null) {
                 applyto.getMap().broadcastMessage(applyto, mbuff, false);
-        }         
+            }
+        }
     }
 
     private int calcHPChange(MapleCharacter applyfrom, boolean primary) {
         int hpchange = 0;
         if (hp != 0) {
-            if(sourceid == BattleMage.CONVERSION){
-                hpchange += (applyfrom.getMaxHp() * (x/100));
+            if (sourceid == BattleMage.CONVERSION) {
+                hpchange += (applyfrom.getMaxHp() * (x / 100));
             }
             if (!skill) {
                 if (primary) {
@@ -1395,8 +1407,6 @@ public class MapleStatEffect implements Serializable {
         }
         return val;
     }
-    
-    
 
     private MapleStatEffect getAlchemistEffect(MapleCharacter chr) {
         int id = Hermit.ALCHEMIST;
@@ -1501,21 +1511,21 @@ public class MapleStatEffect implements Serializable {
     }
 
     public boolean isMonsterRiding() {
-         return skill && (sourceid % 10000000 == 1004 || sourceid  == Corsair.BATTLE_SHIP || sourceid == Beginner.SPACESHIP || sourceid ==  Noblesse.SPACESHIP || sourceid == Beginner.OSTRICH || sourceid ==  Beginner.CHICKEN || sourceid == Beginner.CROCO || sourceid ==  Beginner.OS3A_MACHINE || sourceid == Beginner.OWL || sourceid ==  Beginner.MOTHERSHIP || sourceid == Beginner.OS4_SHUTTLE 
-                || sourceid == Beginner.YETI_MOUNT1 || sourceid ==  Beginner.YETI_MOUNT || sourceid == Beginner.WITCH_BROOMSTICK || sourceid  == Beginner.BALROG_MOUNT || sourceid == Legend.OSTRICH || sourceid ==  Noblesse.CHICKEN || sourceid == Legend.CROCO || sourceid ==  Noblesse.OS3A_MACHINE || sourceid == Noblesse.OWL || sourceid ==  Noblesse.MOTHERSHIP || sourceid == Noblesse.OS4_SHUTTLE 
-                || sourceid == Noblesse.YETI_MOUNT1 || sourceid ==  Noblesse.YETI_MOUNT || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid  == Noblesse.BALROG_MOUNT || sourceid == Noblesse.OSTRICH || sourceid ==  Legend.CHICKEN || sourceid == Noblesse.CROCO || sourceid ==  Legend.OS3A_MACHINE || sourceid == Legend.OWL || sourceid ==  Legend.MOTHERSHIP || sourceid == Legend.OS4_SHUTTLE 
-                || sourceid == Legend.YETI_MOUNT1 || sourceid ==  Legend.YETI_MOUNT || sourceid == Legend.WITCH_BROOMSTICK || sourceid ==  Legend.BALROG_MOUNT || sourceid == WildHunter.JAGUAR_RIDER || sourceid  == Beginner.LEONARDO_THE_LION || sourceid == Legend.LEONARDO_THE_LION ||  sourceid == Noblesse.LEONARDO_THE_LION || sourceid ==  Beginner.SMALL_RABBIT || sourceid == Legend.SMALL_RABBIT || sourceid ==  Noblesse.SMALL_RABBIT || sourceid == Beginner.ROGUE_RABBIT || sourceid  == Legend.ROGUE_RABBIT || sourceid == Noblesse.ROGUE_RABBIT 
-                || sourceid == Mechanic.PROTOTYPE || sourceid ==  Beginner.RACE_KART || sourceid == Noblesse.RACE_KART || sourceid ==  Legend.RACE_KART || sourceid == Beginner.ZD_TIGER || sourceid ==  Noblesse.ZD_TIGER || sourceid == Legend.ZD_TIGER || sourceid ==  Beginner.MIST_BALROG || sourceid == Noblesse.MIST_BALROG || sourceid ==  Legend.MIST_BALROG 
-                || sourceid == Beginner.SHINJO || sourceid ==  Noblesse.SHINJO  || sourceid == Legend.SHINJO  || sourceid ==  Beginner.ORANGE_MUSHROOM  || sourceid == Noblesse.ORANGE_MUSHROOM  ||  sourceid == Legend.ORANGE_MUSHROOM  || sourceid == Beginner.NIGHTMARE   || sourceid == Noblesse.NIGHTMARE  || sourceid == Legend.NIGHTMARE 
-                || sourceid == Beginner.YETI  || sourceid ==  Noblesse.YETI  || sourceid == Legend.YETI || sourceid ==  Beginner.PINK_BEAR_HOT_AIR_BALLOON  || sourceid ==  Noblesse.PINK_BEAR_HOT_AIR_BALLOON  || sourceid ==  Legend.PINK_BEAR_HOT_AIR_BALLOON || sourceid ==  Beginner.TRANSFORMATION_ROBOT  || sourceid ==  Noblesse.TRANSFORMATION_ROBOT  || sourceid ==  Legend.TRANSFORMATION_ROBOT || sourceid == Beginner.MOTORCYCLE  ||  sourceid == Noblesse.MOTORCYCLE  || sourceid == Legend.MOTORCYCLE 
-                || sourceid == Beginner.POWER_SUIT  || sourceid ==  Noblesse.POWER_SUIT  || sourceid == Legend.POWER_SUIT || sourceid ==  Beginner.NIMBUS_CLOUD  || sourceid == Noblesse.NIMBUS_CLOUD  || sourceid  == Legend.NIMBUS_CLOUD 
-                || sourceid == Beginner.BLACK_SCOOTER  || sourceid ==  Noblesse.BLACK_SCOOTER  || sourceid == Legend.BLACK_SCOOTER || sourceid  == Beginner.CHARGE_WOODEN_PONY  || sourceid ==  Noblesse.CHARGE_WOODEN_PONY  || sourceid == Legend.CHARGE_WOODEN_PONY ||  sourceid == Beginner.PINK_SCOOTER  || sourceid == Noblesse.PINK_SCOOTER   || sourceid == Legend.PINK_SCOOTER || sourceid == Beginner.GARGOYLE   || sourceid == Noblesse.GARGOYLE  || sourceid == Legend.GARGOYLE ||  sourceid == Beginner.UNICORN  || sourceid == Noblesse.UNICORN  ||  sourceid == Legend.UNICORN 
-                || sourceid == Beginner.RED_TRUCK  || sourceid ==  Noblesse.RED_TRUCK  || sourceid == Legend.RED_TRUCK || sourceid ==  Beginner.LOW_RIDER  || sourceid == Noblesse.LOW_RIDER  || sourceid ==  Legend.LOW_RIDER  || sourceid == Beginner.LION  || sourceid ==  Noblesse.LION  || sourceid == Legend.LION 
-                || sourceid == Citizen.YETI_MOUNT  || sourceid ==  Citizen.CHICKEN  || sourceid == Citizen.OSTRICH  || sourceid ==  Citizen.CROCO  || sourceid == Citizen.OS4_SHUTTLE  || sourceid ==  Citizen.OWL  || sourceid == Citizen.MOTHERSHIP  || sourceid ==  Citizen.OS3A_MACHINE 
-                 || sourceid == Citizen.LEONARDO_THE_LION  || sourceid  == Citizen.ROGUE_RABBIT  || sourceid == Citizen.POWER_SUIT  || sourceid  == Citizen.PINK_BEAR_HOT_AIR_BALLOON  || sourceid == Citizen.YETI  ||  sourceid == Citizen.SHINJO  || sourceid == Citizen.MIST_BALROG  ||  sourceid == Citizen.ZD_TIGER  || sourceid == Citizen.RACE_KART 
-                 || sourceid == Citizen.NIMBUS_CLOUD  || sourceid ==  Citizen.CHARGE_WOODEN_PONY  || sourceid == Citizen.SMALL_RABBIT  ||  sourceid == Citizen.MOTORCYCLE  || sourceid ==  Citizen.TRANSFORMATION_ROBOT  || sourceid == Citizen.NIGHTMARE  ||  sourceid == Citizen.ORANGE_MUSHROOM 
-                 || sourceid == Citizen.WITCH_BROOMSTICK   || sourceid  == Citizen.LION   || sourceid == Citizen.LOW_RIDER   || sourceid ==  Citizen.RED_TRUCK   || sourceid == Citizen.UNICORN   || sourceid ==  Citizen.SPACESHIP   || sourceid == Citizen.GARGOYLE   || sourceid ==  Citizen.PINK_SCOOTER   || sourceid == Citizen.BLACK_SCOOTER   ||  sourceid == Citizen.BALROG_MOUNT); 
-    }  
+        return skill && (sourceid % 10000000 == 1004 || sourceid == Corsair.BATTLE_SHIP || sourceid == Beginner.SPACESHIP || sourceid == Noblesse.SPACESHIP || sourceid == Beginner.OSTRICH || sourceid == Beginner.CHICKEN || sourceid == Beginner.CROCO || sourceid == Beginner.OS3A_MACHINE || sourceid == Beginner.OWL || sourceid == Beginner.MOTHERSHIP || sourceid == Beginner.OS4_SHUTTLE
+                || sourceid == Beginner.YETI_MOUNT1 || sourceid == Beginner.YETI_MOUNT || sourceid == Beginner.WITCH_BROOMSTICK || sourceid == Beginner.BALROG_MOUNT || sourceid == Legend.OSTRICH || sourceid == Noblesse.CHICKEN || sourceid == Legend.CROCO || sourceid == Noblesse.OS3A_MACHINE || sourceid == Noblesse.OWL || sourceid == Noblesse.MOTHERSHIP || sourceid == Noblesse.OS4_SHUTTLE
+                || sourceid == Noblesse.YETI_MOUNT1 || sourceid == Noblesse.YETI_MOUNT || sourceid == Noblesse.WITCH_BROOMSTICK || sourceid == Noblesse.BALROG_MOUNT || sourceid == Noblesse.OSTRICH || sourceid == Legend.CHICKEN || sourceid == Noblesse.CROCO || sourceid == Legend.OS3A_MACHINE || sourceid == Legend.OWL || sourceid == Legend.MOTHERSHIP || sourceid == Legend.OS4_SHUTTLE
+                || sourceid == Legend.YETI_MOUNT1 || sourceid == Legend.YETI_MOUNT || sourceid == Legend.WITCH_BROOMSTICK || sourceid == Legend.BALROG_MOUNT || sourceid == WildHunter.JAGUAR_RIDER || sourceid == Beginner.LEONARDO_THE_LION || sourceid == Legend.LEONARDO_THE_LION || sourceid == Noblesse.LEONARDO_THE_LION || sourceid == Beginner.SMALL_RABBIT || sourceid == Legend.SMALL_RABBIT || sourceid == Noblesse.SMALL_RABBIT || sourceid == Beginner.ROGUE_RABBIT || sourceid == Legend.ROGUE_RABBIT || sourceid == Noblesse.ROGUE_RABBIT
+                || sourceid == Mechanic.PROTOTYPE || sourceid == Beginner.RACE_KART || sourceid == Noblesse.RACE_KART || sourceid == Legend.RACE_KART || sourceid == Beginner.ZD_TIGER || sourceid == Noblesse.ZD_TIGER || sourceid == Legend.ZD_TIGER || sourceid == Beginner.MIST_BALROG || sourceid == Noblesse.MIST_BALROG || sourceid == Legend.MIST_BALROG
+                || sourceid == Beginner.SHINJO || sourceid == Noblesse.SHINJO || sourceid == Legend.SHINJO || sourceid == Beginner.ORANGE_MUSHROOM || sourceid == Noblesse.ORANGE_MUSHROOM || sourceid == Legend.ORANGE_MUSHROOM || sourceid == Beginner.NIGHTMARE || sourceid == Noblesse.NIGHTMARE || sourceid == Legend.NIGHTMARE
+                || sourceid == Beginner.YETI || sourceid == Noblesse.YETI || sourceid == Legend.YETI || sourceid == Beginner.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Noblesse.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Legend.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Beginner.TRANSFORMATION_ROBOT || sourceid == Noblesse.TRANSFORMATION_ROBOT || sourceid == Legend.TRANSFORMATION_ROBOT || sourceid == Beginner.MOTORCYCLE || sourceid == Noblesse.MOTORCYCLE || sourceid == Legend.MOTORCYCLE
+                || sourceid == Beginner.POWER_SUIT || sourceid == Noblesse.POWER_SUIT || sourceid == Legend.POWER_SUIT || sourceid == Beginner.NIMBUS_CLOUD || sourceid == Noblesse.NIMBUS_CLOUD || sourceid == Legend.NIMBUS_CLOUD
+                || sourceid == Beginner.BLACK_SCOOTER || sourceid == Noblesse.BLACK_SCOOTER || sourceid == Legend.BLACK_SCOOTER || sourceid == Beginner.CHARGE_WOODEN_PONY || sourceid == Noblesse.CHARGE_WOODEN_PONY || sourceid == Legend.CHARGE_WOODEN_PONY || sourceid == Beginner.PINK_SCOOTER || sourceid == Noblesse.PINK_SCOOTER || sourceid == Legend.PINK_SCOOTER || sourceid == Beginner.GARGOYLE || sourceid == Noblesse.GARGOYLE || sourceid == Legend.GARGOYLE || sourceid == Beginner.UNICORN || sourceid == Noblesse.UNICORN || sourceid == Legend.UNICORN
+                || sourceid == Beginner.RED_TRUCK || sourceid == Noblesse.RED_TRUCK || sourceid == Legend.RED_TRUCK || sourceid == Beginner.LOW_RIDER || sourceid == Noblesse.LOW_RIDER || sourceid == Legend.LOW_RIDER || sourceid == Beginner.LION || sourceid == Noblesse.LION || sourceid == Legend.LION
+                || sourceid == Citizen.YETI_MOUNT || sourceid == Citizen.CHICKEN || sourceid == Citizen.OSTRICH || sourceid == Citizen.CROCO || sourceid == Citizen.OS4_SHUTTLE || sourceid == Citizen.OWL || sourceid == Citizen.MOTHERSHIP || sourceid == Citizen.OS3A_MACHINE
+                || sourceid == Citizen.LEONARDO_THE_LION || sourceid == Citizen.ROGUE_RABBIT || sourceid == Citizen.POWER_SUIT || sourceid == Citizen.PINK_BEAR_HOT_AIR_BALLOON || sourceid == Citizen.YETI || sourceid == Citizen.SHINJO || sourceid == Citizen.MIST_BALROG || sourceid == Citizen.ZD_TIGER || sourceid == Citizen.RACE_KART
+                || sourceid == Citizen.NIMBUS_CLOUD || sourceid == Citizen.CHARGE_WOODEN_PONY || sourceid == Citizen.SMALL_RABBIT || sourceid == Citizen.MOTORCYCLE || sourceid == Citizen.TRANSFORMATION_ROBOT || sourceid == Citizen.NIGHTMARE || sourceid == Citizen.ORANGE_MUSHROOM
+                || sourceid == Citizen.WITCH_BROOMSTICK || sourceid == Citizen.LION || sourceid == Citizen.LOW_RIDER || sourceid == Citizen.RED_TRUCK || sourceid == Citizen.UNICORN || sourceid == Citizen.SPACESHIP || sourceid == Citizen.GARGOYLE || sourceid == Citizen.PINK_SCOOTER || sourceid == Citizen.BLACK_SCOOTER || sourceid == Citizen.BALROG_MOUNT);
+    }
 
     public boolean isMagicDoor() {
         return skill && sourceid == Priest.MYSTIC_DOOR;
@@ -1536,16 +1546,16 @@ public class MapleStatEffect implements Serializable {
     private boolean isShadowClaw() {
         return skill && sourceid == NightLord.SHADOW_STARS;
     }
-    
-    private boolean isAmplifierRobot(){
+
+    private boolean isAmplifierRobot() {
         return skill && sourceid == Mechanic.AMPLIFIER;
     }
-    
-    private boolean isHealingRobot(){
+
+    private boolean isHealingRobot() {
         return skill && sourceid == Mechanic.HEALING_ROBOT;
     }
-    
-    private boolean isAccelerationRobot(){
+
+    private boolean isAccelerationRobot() {
         return skill && sourceid == Mechanic.ACCELERATION_BOT;
     }
 
@@ -1631,8 +1641,8 @@ public class MapleStatEffect implements Serializable {
             case Corsair.WRATH_OF_THE_OCTOPI:
             case BladeMaster.MIRRORED_TARGET:
             case WildHunter.WILD_TRAP:
-       //     case Mechanic.ACCELERATION_BOT:
-         //   case Mechanic.AMPLIFIER:
+            //     case Mechanic.ACCELERATION_BOT:
+            //   case Mechanic.AMPLIFIER:
             case Mechanic.GIANT_ROBOT:
             case Mechanic.HEALING_ROBOT:
             case Mechanic.BOTS_N_TOTS:
@@ -1647,13 +1657,13 @@ public class MapleStatEffect implements Serializable {
             case Bowmaster.PHOENIX:
             case Outlaw.GAVIOTA:
             case BattleMage.SUMMON_REAPER_BUFF:
-           //     return SummonMovementType.CIRCLE_FOLLOW;
+            //     return SummonMovementType.CIRCLE_FOLLOW;
             case DarkKnight.BEHOLDER:
             case FPArchMage.IFRIT:
             case ILArchMage.ELQUINES:
             case Bishop.BAHAMUT:
             case DawnWarrior.SOUL:
-           // case BladeLord.MIRROR_IMAGE:
+            // case BladeLord.MIRROR_IMAGE:
             case BlazeWizard.FLAME:
             case BlazeWizard.IFRIT:
             case WindArcher.STORM:
@@ -1680,6 +1690,7 @@ public class MapleStatEffect implements Serializable {
     }
 
     private static class CancelEffectAction implements Runnable {
+
         private MapleStatEffect effect;
         private WeakReference<MapleCharacter> target;
         private long startTime;
@@ -1776,8 +1787,8 @@ public class MapleStatEffect implements Serializable {
     }
 
     public double getMaxDistanceSq() {
-	final int maxX = Math.max(Math.abs(lt == null ? 0 : lt.x), Math.abs(rb == null ? 0 : rb.x));
-	final int maxY = Math.max(Math.abs(lt == null ? 0 : lt.y), Math.abs(rb == null ? 0 : rb.y));
-	return (maxX * maxX) + (maxY * maxY);
+        final int maxX = Math.max(Math.abs(lt == null ? 0 : lt.x), Math.abs(rb == null ? 0 : rb.x));
+        final int maxY = Math.max(Math.abs(lt == null ? 0 : lt.y), Math.abs(rb == null ? 0 : rb.y));
+        return (maxX * maxX) + (maxY * maxY);
     }
 }

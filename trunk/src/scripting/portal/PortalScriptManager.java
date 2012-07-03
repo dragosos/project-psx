@@ -56,7 +56,7 @@ public class PortalScriptManager {
         }
         File scriptFile = new File("scripts/portal/" + scriptName + ".js");
         if (!scriptFile.exists()) {
-            System.out.println("SCRIPT FILE : " + scriptName + " DOES NOT EXIST. CODE IT NAO! :(");
+            System.out.println("SCRIPT FILE : " + scriptName + " DOES NOT EXIST. Create " +scriptName +".js in scripts/portal");
             scripts.put(scriptName, null);
             return null;
         }

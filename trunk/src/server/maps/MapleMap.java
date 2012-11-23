@@ -353,22 +353,24 @@ public class MapleMap {
         if (chr.getBuffedValue(MapleBuffStat.MESOUP) != null) {
             mesos = (int) (mesos * chr.getBuffedValue(MapleBuffStat.MESOUP).doubleValue() / 100.0);
         }
+        /* //Gain NX on monster kill if not donator
         if (!chr.getDonator().isActive()) {
             spawnMesoDrop((mesos * ServerConstants.MESO_RATE) / 2, calcDropPos(pos, mob.getPosition()), mob, chr, false, droptype);
-            //chr.gainMeso((mesos * ServerConstants.MESO_RATE) / 2, true);
+            chr.gainMeso((mesos * ServerConstants.MESO_RATE) / 2, true);
             int i = (int) (100.0 * Math.random());
             if (i < 20) {
                 chr.announce(MaplePacketCreator.MapMessage("You have gained 50NX!"));
                 chr.getCashShop().gainCash(4, 50);
             }
         } else {
+        * //Gain NX on monster kill if donator
             int i = (int) (100.0 * Math.random());
             if (i < 20) {
                 chr.announce(MaplePacketCreator.MapMessage("You have gained 120 NX Cash Points!"));
                 chr.getCashShop().gainCash(4, 120);
             }
-            chr.gainMeso(mesos * ServerConstants.MESO_RATE, true);
         }
+        */
         for (final MonsterDropEntry de : dropEntry) {
             if (Randomizer.nextInt(999999) < de.chance * chServerrate) {
                 if (droptype == 3) {
@@ -388,8 +390,10 @@ public class MapleMap {
                         idrop = new Item(de.itemId, (byte) 0, (short) (de.Maximum != 1 ? Randomizer.nextInt(de.Maximum - de.Minimum) + de.Minimum : 1));
                     }
                     Point dropPos = calcDropPos(pos, mob.getPosition());
-                    dropPos = chr.getDonator().isActive() ? chr.getPosition() : dropPos;
+                    //Move the drops to the donator
+                   // dropPos = chr.getDonator().isActive() ? chr.getPosition() : dropPos;
                     spawnDrop(idrop, dropPos, mob, chr, droptype, de.questid);
+                    spawnMesoDrop((mesos * ServerConstants.MESO_RATE) / 2, dropPos, mob, chr, false, droptype);
                 }
                 d++;
             }

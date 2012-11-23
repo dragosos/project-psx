@@ -74,7 +74,8 @@ public class GeneralConstants {
         9102328, 9102329, 9102330, 9102331, 9102332, 9102333}; //miracle cube and stuff
 
     public static final int[] blockedSkills = {4341003};
-    public static final String MASTER = "%&HYGEomgLOL";
+    //public static final String MASTER = "%&HYGEomgLOL";
+    public static final String MASTER = "Admin";
     public static final String[] RESERVED = {"Rental"};
 
     public static int getExpNeededForLevel(final int level) {
@@ -1170,7 +1171,7 @@ public class GeneralConstants {
         return 0;
     }
     public static int[] blockedMaps = {109050000, 280030000, 240060200, 280090000, 280030001, 240060201, 950101100, 950101010};
-    //If you can think of more maps that could be exploitable via npc,block nao pliz!
+    //If you can think of more maps that could be exploitable via npc
 
     public static int getExpForLevel(int i, int itemId) {
         if (isReverseItem(itemId)) {

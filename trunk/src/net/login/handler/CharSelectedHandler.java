@@ -20,7 +20,6 @@ public class CharSelectedHandler extends AbstractMaplePacketHandler {
 
     public void handlePacket(SeekableLittleEndianAccessor slea, MapleClient c) {
         System.out.println("Using non-pic ");
-        String pic = slea.readMapleAsciiString();
         int charId = slea.readInt();
         String macs = slea.readMapleAsciiString();
         c.updateMacs(macs);
@@ -60,7 +59,7 @@ public class CharSelectedHandler extends AbstractMaplePacketHandler {
             try {
                 c.announce(MaplePacketCreator.getServerIP(InetAddress.getByName(channelServerIP), Integer.parseInt(LoginServer.getInstance().getIP(c.getChannel()).split(":")[1]), charId));
             } catch (UnknownHostException ex) {
-                java.util.logging.Logger.getLogger(CharSelectedWithPicHandler.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(CharSelectedHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

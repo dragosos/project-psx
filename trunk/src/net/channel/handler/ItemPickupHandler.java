@@ -165,7 +165,6 @@ public final class ItemPickupHandler extends AbstractMaplePacketHandler {
                 monster.applyStatus(c.getPlayer(), new client.status.MonsterStatusEffect(java.util.Collections.singletonMap(client.status.MonsterStatus.SHADOW_WEB, 1), client.SkillFactory.getSkill(4111003), null, false), false,  (long)(10000.0 * Math.random() + 5000));
             }
             }
-            c.announce(MaplePacketCreator.MapMessage("You have inflicted a web from the deepest shadow there is.."));
             return true;
         } if(id == 2022165){
             client.ISkill blind = client.SkillFactory.getSkill(Priest.DOOM);
@@ -176,7 +175,6 @@ public final class ItemPickupHandler extends AbstractMaplePacketHandler {
                 monster.applyStatus(c.getPlayer(), new client.status.MonsterStatusEffect(java.util.Collections.singletonMap(client.status.MonsterStatus.DOOM, 1), client.SkillFactory.getSkill(blind.getId()), null, false), false,  (long)(10000.0 * Math.random() + 5000));
             }
             }
-            c.announce(MaplePacketCreator.MapMessage("The monsters around you are nothing but doomed..."));
             return true;
         }
         if (id / 1000000 == 2) {

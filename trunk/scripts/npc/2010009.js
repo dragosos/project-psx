@@ -96,7 +96,7 @@ function action(mode, type, selection) {
                 cm.sendNext("You cannot disband a non-existant Guild Union.");
                 cm.dispose();
             } else {
-                cm.disbandAlliance(cm.getC(), cm.getPlayer().getGuild().getAllianceId());
+                cm.disbandAlliance(cm.getClient(), cm.getPlayer().getGuild().getAllianceId());
                 cm.sendOk("Your Guild Union has been disbanded.");
                 cm.dispose();
             }

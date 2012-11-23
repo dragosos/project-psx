@@ -45,12 +45,7 @@ public class MapleDonator {
             e.printStackTrace();
         }
     }
-    
-
    
-    
-    
-    
     public boolean isActive(){
         return active;
     }

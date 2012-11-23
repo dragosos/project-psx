@@ -137,8 +137,10 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
     private int int_;
     private int hp;
     private int maxhp;
+    private int realhp;
     private int mp;
     private int maxmp;
+    private int realmp;
     private int hpMpApUsed;
     private int hair;
     private int face;
@@ -427,7 +429,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
         }
 
         if (ret.isGM()) {
-            ret.job = MapleJob.SUPERGM;
+            ret.job = MapleJob.GM;
             ret.level = 200;
             //int[] gmskills = {9001000, 9001001, 9001000, 9101000, 9101001, 9101002, 9101003, 9101004, 9101005, 9101006, 9101007, 9101008};
         }
@@ -554,7 +556,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
         MapleCharacter player = c.getPlayer();
         MapleJob jobtype = player.getJob();
         int MaxHP = player.getMaxHp();
-        if (player.getHpMpApUsed() > 9999 || MaxHP >= 99999) {
+        if (player.getHpMpApUsed() > 9999 || MaxHP >= 30000) {
             return MaxHP;
         }
         if (jobtype.isA(MapleJob.BEGINNER)) {
@@ -995,11 +997,11 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
             maxhp += Randomizer.rand(300, 350);
             maxmp += Randomizer.rand(150, 200);
         }
-        if (maxhp >= 99999) {
-            maxhp = 99999;
+        if (maxhp >= 30000) {
+            maxhp = 30000;
         }
-        if (maxmp >= 99999) {
-            maxmp = 99999;
+        if (maxmp >= 30000) {
+            maxmp = 30000;
         }
         if (!isGM()) {
             for (byte i = 1; i < 5; i++) {
@@ -2104,6 +2106,10 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
     public int getMaxHp() {
         return maxhp;
     }
+    
+    public int getRealHp(){
+        return realhp;
+    }
 
     public int getMaxLevel() {
         return isCygnus() ? 120 : 200;
@@ -2111,6 +2117,10 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
 
     public int getMaxMp() {
         return maxmp;
+    }
+    
+    public int getRealMp() {
+        return realmp;
     }
 
     public int getMeso() {
@@ -2746,8 +2756,8 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
         if (level >= getMaxLevel()) {
             exp.set(0);
         }
-        maxhp = Math.min(99999, maxhp);
-        maxmp = Math.min(99999, maxmp);
+        maxhp = Math.min(30000, maxhp);
+        maxmp = Math.min(30000, maxmp);
         if (level == 200) {
             exp.set(0);
         }
@@ -3408,8 +3418,8 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
             localmaxhp += hpUp;
             localmaxmp += mpUp;
         }
-        localmaxhp = Math.min(99999, localmaxhp);
-        localmaxmp = Math.min(99999, localmaxmp);
+        localmaxhp = Math.min(30000, localmaxhp);
+        localmaxmp = Math.min(30000, localmaxmp);
         Integer watkbuff = getBuffedValue(MapleBuffStat.WATK);
         if (watkbuff != null) {
             watk += watkbuff.intValue();
@@ -4383,7 +4393,7 @@ public class MapleCharacter extends AbstractAnimatedMapleMapObject {
     }
 
     public void setMaxHp(int hp, boolean ap) {
-        hp = Math.min(99999, hp);
+        hp = Math.min(30000, hp);
         if (ap) {
             setHpMpApUsed(getHpMpApUsed() + 1);
         }

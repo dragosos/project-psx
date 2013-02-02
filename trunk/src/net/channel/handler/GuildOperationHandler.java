@@ -275,7 +275,7 @@ public final class GuildOperationHandler extends AbstractMaplePacketHandler {
                     return;
                 }
                 if (mc.getMeso() < MapleGuild.CHANGE_EMBLEM_COST) {
-                    c.announce(MaplePacketCreator.serverNotice(1, "You do not have enough mesos to create a Guild."));
+                    c.announce(MaplePacketCreator.serverNotice(1, "You do not have enough mesos to create a Guild or make an emblem."));
                     return;
                 }
                 short bg = slea.readShort();

@@ -223,5 +223,6 @@ public final class EnterMTSHandler extends AbstractMaplePacketHandler {
         }
         c.getPlayer().saveLocation("FREE_MARKET");
         c.getPlayer().changeMap(910000000);
+        c.getPlayer().dropMessage("You have been sent to the Free Market.");
     }
 }
